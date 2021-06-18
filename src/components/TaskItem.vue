@@ -75,8 +75,6 @@ export default {
 }
 </script>
 <style scoped>
-
-
 .update-input:first-of-type{
     width:10% ;
 }
