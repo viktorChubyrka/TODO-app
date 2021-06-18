@@ -1,18 +1,51 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <Header @changeTab="changeMode"/>
+    <div class="content">
+      <TodoList v-if="mode==='task_list'"/>
+      <Archive v-else/>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import Header from "@/components/Header.vue"
+import TodoList from "@/components/TodoList.vue"
+import Archive from "@/components/Archive.vue"
+
 
 export default {
   name: "Home",
   components: {
-    HelloWorld,
+    Header,
+    TodoList,
+    Archive
   },
+  data:()=>{
+    return{
+      mode:'task_list'
+    }
+  },
+  methods:{
+    changeMode(mode){
+      this.mode = mode;
+    }
+  }
 };
 </script>
+
+<style scoped>
+  .home{
+    width:100vw;
+    height:100vh;
+    padding:0 10vh 2vh;
+    overflow: hidden;
+  }
+  .content{
+    width:100%;
+    height:89vh;
+    background-color: honeydew;
+    margin-top:8.9vh;
+    padding: 2vh ;
+  }
+</style>
