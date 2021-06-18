@@ -20,11 +20,8 @@
             
         </div>
         <input placeholder="Пошук" v-model="search" type="text" class="search">
-        <div v-if="!search">
-            <TaskItem :task="task" v-for="task in paginatedData" :key="task.creation_date"/>
-        </div>
-        <div v-else>
-            <TaskItem :task="task" v-for="task in searchResult" :key="task.creation_date"/>
+        <div >
+            <TaskItem :task="task" v-for="(task) in paginatedData" :key="task.creation_date"/>
         </div>
         <Paginator v-if="pageCount>1" @select="setPage" @next="setPage" @prev="setPage" :page_count="pageCount" :current_page="current_page"/>
         <TaskCreationForm @close="is_creation_form_active=false" v-if="is_creation_form_active"/>
@@ -47,6 +44,11 @@ export default {
             is_creation_form_active:false,
             search:'',
             current_page:0
+        }
+    },
+    watch:{
+        paginatedData(){
+            if(this.paginatedData.length == 0 && this.activeTasks.length>=5)this.current_page -=1;
         }
     },
     computed:{
