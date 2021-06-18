@@ -21,7 +21,7 @@ export default {
     },
     watch:{
         paginatedData(){
-            if(this.paginatedData.length == 0 && this.activeTasks.length>=6)this.current_page -=1;
+            if(this.paginatedData.length == 0 && this.archiveTasks.length>=6)this.current_page -=1;
         }
     },
     computed:{
@@ -32,6 +32,7 @@ export default {
             const start = this.current_page * 6,
             end = start + 6;
             return this.archiveTasks.slice(start, end);
+           
 
         },
         pageCount(){
