@@ -21,34 +21,45 @@
         </div>
         <input placeholder="Пошук" v-model="search" type="text" class="search">
         <div v-if="!search">
-            <TaskItem :task="task" v-for="task in activeTasks" :key="task.creation_date"/>
+            <TaskItem :task="task" v-for="task in paginatedData" :key="task.creation_date"/>
         </div>
         <div v-else>
             <TaskItem :task="task" v-for="task in searchResult" :key="task.creation_date"/>
         </div>
-        
+        <Paginator v-if="pageCount>1" @select="setPage" @next="setPage" @prev="setPage" :page_count="pageCount" :current_page="current_page"/>
         <TaskCreationForm @close="is_creation_form_active=false" v-if="is_creation_form_active"/>
+        
     </div>
 </template>
 <script>
 import TaskItem from "@/components/TaskItem.vue"
 import TaskCreationForm from "@/components/TaskCreationForm.vue"
-
+import Paginator from "@/components/Paginator.vue"
 
 export default {
     components:{
         TaskItem,
-        TaskCreationForm
+        TaskCreationForm,
+        Paginator
     },
     data:()=>{
         return {
             is_creation_form_active:false,
-            search:''
+            search:'',
+            current_page:0
         }
     },
     computed:{
         activeTasks(){
             return this.$store.getters.active_tasks;
+        },
+        paginatedData(){
+            const start = this.current_page * 5,
+            end = start + 5;
+            if(this.search){
+                return this.searchResult.slice(start, end);
+            }
+            return this.activeTasks.slice(start, end);
         },
         searchResult(){
             if(this.activeTasks){
@@ -61,12 +72,26 @@ export default {
             }
             return []
             
+        },
+        pageCount(){
+            let tasksLength = null;
+            if(this.search) tasksLength = this.searchResult.length;
+            else tasksLength = this.activeTasks.length;
+            if(tasksLength%5){
+                return Math.floor(tasksLength/5)+1;
+            }
+            return Math.floor(tasksLength/5);
+            
         }
 
     },
     methods:{
         sortTasks(sort_method){
             this.$store.commit('sortTasks',sort_method)
+        },
+        setPage(page){
+            if(page>=0 && page<this.pageCount)
+            this.current_page = page;
         }
     }
 }

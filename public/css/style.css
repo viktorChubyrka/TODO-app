@@ -15,6 +15,9 @@ body {
   margin-bottom: 2vh;
   border-radius: 2vh;
 }
+div.task-item:last-of-type {
+  margin-bottom: 1vh;
+}
 .buttons-container {
   width: min-content;
   display: flex;

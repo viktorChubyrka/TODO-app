@@ -53,7 +53,6 @@ export default new Vuex.Store({
       state.tasks.splice(index_of_item_to_delete,1)
     },
     sortTasks:(state,payload)=>{
-      console.log(payload);
       switch (payload) {
         case 'pririty_up':
             state.tasks.sort((a,b)=>{
