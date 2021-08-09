@@ -1,94 +1,57 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import api from "@/api/"
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    tasks:[]
+    tasks: [],
+    task: null
   },
-  getters:{
-    active_tasks:(state)=>{
-      return state.tasks.filter(el=> el.state === 'active')
+  getters: {
+    tasks: (state) => {
+      return state.tasks;
     },
-    archive_tasks:(state)=>{
-      return state.tasks.filter(el=> el.state != 'active')
-    },
-   
+    task: (state) => {
+      return state.task;
+    }
   },
   mutations: {
-    setTasks:(state)=>{
-      let tasks = JSON.parse(localStorage.getItem('tasks'));
-      if(tasks){
-        state.tasks=tasks;
-      }
+    setTasks: (state , payload) => {
+      state.tasks = payload;
     },
-    createTask:(state,payload)=>{
-      state.tasks.push(payload);
-      localStorage.setItem('tasks',JSON.stringify(state.tasks))
-    },
-    updateTask:(state,payload)=>{
-      let updated_tasks = state.tasks.map(el=>{
-        if(el.created_at === payload.created_at){
-          el=payload;
-        }
-        return el
-      })
-      state.tasks = updated_tasks;
-    },
-    saveTasks:(state)=>{
-      localStorage.setItem('tasks',JSON.stringify(state.tasks));
-    },
-    changeTaskState(state,payload){
-      let updated_tasks = state.tasks.map(el=>{
-        if(el.created_at == payload.created_at){
-          el.state=payload.state;
-        }
-        return el
-      })
-      state.tasks = updated_tasks;
-    },
-    deleteTask:(state,payload)=>{
-      let index_of_item_to_delete = state.tasks.indexOf(payload);
-      state.tasks.splice(index_of_item_to_delete,1)
-    },
-    sortTasks:(state,payload)=>{
-      switch (payload) {
-        case 'pririty_up':
-            state.tasks.sort((a,b)=>{
-                if (a.priority>b.priority) return -1;
-                else if(a.priority<b.priority) return 1;
-                else return 0
-            });
-            break;
-        case 'pririty_down':
-            state.tasks.sort((a,b)=>{
-                if (a.priority<b.priority) return -1;
-                else if(a.priority<b.priority) return 1;
-                else return 0
-            });
-            break;
-        case 'date_up':
-            state.tasks.sort((a,b)=>{
-                if (a.creation_date>b.creation_date) return -1;
-                else if(a.creation_date<b.creation_date) return 1;
-                else return 0
-            });
-            break;
-        case 'date_down':
-            state.tasks.sort((a,b)=>{
-                if (a.creation_date<b.creation_date) return -1;
-                else if(a.creation_date>b.creation_date) return 1;
-                else return 0
-            });
-            break;
-    
-        default:
-            break;
+    setTask: (state , payload) => {
+      state.task = payload;
     }
-    },
   },
   actions: {
+    getAllTasks: async (state) => {
+      let res = await api.getTasks();
+      state.commit('setTasks' , res.data)
+    },
+    getTaskById: async (state , payload) => {
+      let res = await api.getTaskById(payload);
+      state.commit('setTask' , res.data)
+    },
+    createTask: async (state , payload) => {
+      let res = await api.createTask(payload);
+      if(res.status === 201) {
+        state.dispatch('getAllTasks')
+      }
+    },
+    updateTask: async (state , payload) => {
+      let res = await api.updateTask(payload);
+      if(res.status === 200) {
+        state.dispatch('getAllTasks')
+      }
+    },
+    deleteTaskById: async (state , payload) => {
+      let res = await api.deleteTaskById(payload);
+      if(res.status === 200) {
+        state.dispatch('getAllTasks')
+      }
+    }
   },
-  modules: {},
+  modules: {}
 });

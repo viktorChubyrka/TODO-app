@@ -61,9 +61,10 @@ export default {
                 description: this.description,
                 created_at: this.task ? this.task.created_at : current_date,
                 updated_at: current_date,
-                state: 'active'
+                state: 'active',
+                id:this.task ? this.task.id : null
             };
-            this.$store.commit(this.task ? 'updateTask' : 'createTask' , task);
+            this.$store.dispatch(this.task ? 'updateTask' : 'createTask' , task);
             this.$store.commit('saveTasks');
             this.$emit('close');
         },

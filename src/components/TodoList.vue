@@ -15,28 +15,26 @@
                 </div>
             </div> -->
         </div>
-        <div v-if="!search">
+        <div>
             <TaskItem 
-            :task="task" 
-            v-for="task in paginatedData" 
-            :key="task.creation_date"/>
+                :task="task" 
+                v-for="task in paginatedData" 
+                :key="task.creation_date"
+            />
         </div>
-        <div v-else>
-            <TaskItem 
-            :task="task" 
-            v-for="task in searchResult" 
-            :key="task.creation_date"/>
-        </div>
+       
         <Paginator
-        v-if="pageCount > 1"
-        @select="setPage"
-        @next="setPage"
-        @prev="setPage"
-        :page_count="pageCount"
-        :current_page="current_page"/>
+            v-if="pageCount > 1"
+            @select="setPage"
+            @next="setPage"
+            @prev="setPage"
+            :page_count="pageCount"
+            :current_page="current_page"
+        />
         <CreateUpdateTaskModal 
-        v-if="show_modal"
-        @close="show_modal = false"/>
+            v-if="show_modal"
+            @close="show_modal = false"
+        />
     </div>
 </template>
 <script>
@@ -45,41 +43,41 @@ import CreateUpdateTaskModal from "@/components/CreateUpdateTaskModal.vue"
 import Paginator from "@/components/Paginator.vue"
 
 export default {
-    components:{
+    components: {
         TaskItem,
         CreateUpdateTaskModal,
         Paginator
     },
-    data:()=>{
+    data: () => {
         return {
             current_page: 0,
             show_modal: false
         }
     },
-    computed:{
-        activeTasks(){
-            return this.$store.getters.active_tasks;
+    computed: {
+        activeTasks() {
+            return this.$store.getters.tasks;
         },
-        paginatedData(){
+        paginatedData() {
             const start = this.current_page * 5,
             end = start + 5;
-            if(this.search){
-                return this.searchResult.slice(start, end);
+            if(this.search) {
+                return this.searchResult.slice(start , end);
             }
-            return this.activeTasks.slice(start, end);
+            return this.activeTasks.slice(start , end);
         },
-        pageCount(){
+        pageCount() {
             let tasksLength = null;
             if(this.search) tasksLength = this.searchResult.length;
             else tasksLength = this.activeTasks.length;
-            if(tasksLength % 5){
+            if(tasksLength % 5) {
                 return Math.floor(tasksLength / 5) + 1;
             }
             return Math.floor(tasksLength / 5); 
         }
     },
-    methods:{
-        setPage(page){
+    methods: {
+        setPage(page) {
             if(page >= 0 && page < this.pageCount)
             this.current_page = page;
         }
@@ -124,12 +122,5 @@ export default {
 img.arrow{
     cursor:pointer;
 }
-.search{
-    width:100%;
-    padding: 1vh;
-    font-size: 2vh;
-    border:none;
-    border-radius:1vh;
-    background: antiquewhite;
-}
+
 </style>

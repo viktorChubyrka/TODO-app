@@ -6,15 +6,13 @@
 </template>
 <script>
 import Header from "@/components/Header.vue"
+
 export default {
-  components:{
+  components: {
     Header
   },
-  created(){
-    this.$store.commit('setTasks')
+  created() {
+    this.$store.dispatch('getAllTasks');
   }
 }
 </script>
-<style>
-
-</style>
