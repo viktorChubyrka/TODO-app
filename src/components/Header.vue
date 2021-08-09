@@ -1,49 +1,23 @@
 <template>
-    <div class="header">
-        <h1 @click="changeTab('task_list')" :class="{active:active_tab === 'task_list'}">Список задач</h1>
-        <h1 @click="changeTab('archive')" :class="{active:active_tab === 'archive'}">Архів</h1>
+    <div>
+        <b-navbar type="dark" variant="dark">
+            <b-navbar-brand href="#"><img src="/images/logo-header.png" alt=""></b-navbar-brand>
+            <b-collapse is-nav>
+                <b-navbar-nav class="text-white">
+                    <b-nav-item-dropdown  text="Tasks">
+                        <b-dropdown-item href="/tasks/active">Active</b-dropdown-item>
+                        <b-dropdown-item href="/tasks/complited">Complited</b-dropdown-item>  
+                    </b-nav-item-dropdown>
+                    <b-nav-item>Feature 1</b-nav-item>
+                    <b-nav-item>Feature 2</b-nav-item>
+                    <b-nav-item>Feature 3</b-nav-item>
+                    <b-nav-item>Feature 4</b-nav-item>
+                </b-navbar-nav>
+            </b-collapse>
+            <b-collapse is-nav class="ml-auto justify-content-end">
+                <b-form-input class="w-50 m-2" placeholder="Search"></b-form-input>
+                <b-button class="m-2"  variant="outline-success">Search</b-button>
+            </b-collapse>
+        </b-navbar>
     </div>
 </template>
-<script>
-
-
-export default{
-  data:()=>{
-      return{
-          active_tab:'task_list'
-      }
-  },
-  methods:{
-      changeTab(tab){
-          this.active_tab = tab;
-          this.$emit('changeTab',tab);
-      }
-  }
-}
-</script>
-
-<style scoped>
-.header{
-    position: fixed;
-    top:0;
-    left:0;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width:100vw;
-    padding:4.1vh 10vh 0;
-}
-.header h1{
-    padding:0 4vh 1vh;
-    font-size:4vh;
-    line-height: 100%;
-    color:darkslategrey;
-    cursor: pointer;
-    border-radius: 1vh 1vh 0 0;
-    transition: background-color .5s;
-}
-.header h1.active{
-    background-color: honeydew;
-}
-</style>
