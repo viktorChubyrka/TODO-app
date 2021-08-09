@@ -29,7 +29,7 @@ export default new Vuex.Store({
     },
     updateTask:(state,payload)=>{
       let updated_tasks = state.tasks.map(el=>{
-        if(el.creation_date == payload.creation_date){
+        if(el.created_at === payload.created_at){
           el=payload;
         }
         return el
@@ -41,7 +41,7 @@ export default new Vuex.Store({
     },
     changeTaskState(state,payload){
       let updated_tasks = state.tasks.map(el=>{
-        if(el.creation_date == payload.creation_date){
+        if(el.created_at == payload.created_at){
           el.state=payload.state;
         }
         return el
