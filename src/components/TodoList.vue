@@ -1,11 +1,8 @@
 <template>
     <div class="todo-list">
         <div class="action-panel">
-            <div @click="is_creation_form_active=true" class="create-btn">
-                <img class="add-icon" src="/icons/add_icon.svg" alt="">
-                Створити завдання
-            </div>
-            <div>
+            <b-button variant="dark" class="m-2" @click="show_modal = true" >Create task</b-button>
+            <!-- <div>
                 <div class="sorting-container">
                     <span>Сортувати за датою:</span>
                     <img @click="sortTasks('date_up')" class="arrow" src="/icons/arrow-up_icon.svg" alt="">
@@ -16,37 +13,47 @@
                     <img @click="sortTasks('pririty_up')" class="arrow" src="/icons/arrow-up_icon.svg" alt="">
                     <img @click="sortTasks('pririty_down')" class="arrow" src="/icons/arrow-down_icon.svg" alt="">
                 </div>
-            </div>
-            
+            </div> -->
         </div>
-        <input placeholder="Пошук" v-model="search" type="text" class="search">
         <div v-if="!search">
-            <TaskItem :task="task" v-for="task in paginatedData" :key="task.creation_date"/>
+            <TaskItem 
+            :task="task" 
+            v-for="task in paginatedData" 
+            :key="task.creation_date"/>
         </div>
         <div v-else>
-            <TaskItem :task="task" v-for="task in searchResult" :key="task.creation_date"/>
+            <TaskItem 
+            :task="task" 
+            v-for="task in searchResult" 
+            :key="task.creation_date"/>
         </div>
-        <Paginator v-if="pageCount>1" @select="setPage" @next="setPage" @prev="setPage" :page_count="pageCount" :current_page="current_page"/>
-        <TaskCreationForm @close="is_creation_form_active=false" v-if="is_creation_form_active"/>
-        
+        <Paginator
+        v-if="pageCount > 1"
+        @select="setPage"
+        @next="setPage"
+        @prev="setPage"
+        :page_count="pageCount"
+        :current_page="current_page"/>
+        <CreateUpdateTaskModal 
+        v-if="show_modal"
+        @close="show_modal = false"/>
     </div>
 </template>
 <script>
 import TaskItem from "@/components/TaskItem.vue"
-import TaskCreationForm from "@/components/TaskCreationForm.vue"
+import CreateUpdateTaskModal from "@/components/CreateUpdateTaskModal.vue"
 import Paginator from "@/components/Paginator.vue"
 
 export default {
     components:{
         TaskItem,
-        TaskCreationForm,
+        CreateUpdateTaskModal,
         Paginator
     },
     data:()=>{
         return {
-            is_creation_form_active:false,
-            search:'',
-            current_page:0
+            current_page: 0,
+            show_modal: false
         }
     },
     computed:{
@@ -61,36 +68,19 @@ export default {
             }
             return this.activeTasks.slice(start, end);
         },
-        searchResult(){
-            if(this.activeTasks){
-                let tasks = this.activeTasks.slice();
-                return tasks.filter((item) => {
-                    return (
-                    item.text.toLowerCase().indexOf(this.search.toLowerCase()) != -1
-                    );
-                });
-            }
-            return []
-            
-        },
         pageCount(){
             let tasksLength = null;
             if(this.search) tasksLength = this.searchResult.length;
             else tasksLength = this.activeTasks.length;
-            if(tasksLength%5){
-                return Math.floor(tasksLength/5)+1;
+            if(tasksLength % 5){
+                return Math.floor(tasksLength / 5) + 1;
             }
-            return Math.floor(tasksLength/5);
-            
+            return Math.floor(tasksLength / 5); 
         }
-
     },
     methods:{
-        sortTasks(sort_method){
-            this.$store.commit('sortTasks',sort_method)
-        },
         setPage(page){
-            if(page>=0 && page<this.pageCount)
+            if(page >= 0 && page < this.pageCount)
             this.current_page = page;
         }
     }
@@ -141,6 +131,5 @@ img.arrow{
     border:none;
     border-radius:1vh;
     background: antiquewhite;
-
 }
 </style>
