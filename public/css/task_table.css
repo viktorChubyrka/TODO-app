@@ -1,0 +1,13 @@
+.task-table-container {
+  width: max-content;
+  min-width: 100%;
+}
+div.table-wrapper {
+  width: 100%;
+  overflow: auto;
+}
+.table-action-icon {
+  margin: 1vh;
+  cursor: pointer;
+  float: right;
+}

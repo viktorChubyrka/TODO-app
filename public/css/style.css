@@ -4,6 +4,7 @@
 @import "header.css";
 @import "archive_item.css";
 @import "archive.css";
+@import "task_table.css";
 
 * {
   margin: 0;
