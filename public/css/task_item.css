@@ -28,3 +28,9 @@ h3 {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.task-item.delited {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+.task-item.complited {
+  background-color: rgba(0, 128, 0, 0.5);
+}
