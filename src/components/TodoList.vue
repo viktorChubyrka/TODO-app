@@ -56,7 +56,7 @@ export default {
     },
     computed: {
         activeTasks() {
-            return this.$store.getters.tasks;
+            return this.$store.getters.active_tasks;
         },
         paginatedData() {
             const start = this.current_page * 5,

@@ -10,8 +10,19 @@ export default new Vuex.Store({
     task: null
   },
   getters: {
-    tasks: (state) => {
-      return state.tasks;
+    active_tasks: (state) => {
+      return state.tasks.filter((el) => {
+        if(el.state !== 'complited' && el.state !== 'delited') {
+          return el;
+        }
+      })
+    },
+    archive_tasks: (state) => {
+      return state.tasks.filter((el) => {
+        if(el.state !== 'active') {
+          return el;
+        }
+      })
     },
     task: (state) => {
       return state.task;
@@ -23,33 +34,55 @@ export default new Vuex.Store({
     },
     setTask: (state , payload) => {
       state.task = payload;
+    },
+    addTask: (state , payload) => {
+      state.tasks.push(payload);
+    },
+    updateTask: (state , payload) => {
+      state.tasks = [...state.tasks.map((el) => {
+        if(el.id !== payload.id) {
+          return el;
+        }
+        return payload;
+      })]
+    },
+    deleteTask: (state , payload) => {
+      state.tasks = [...state.tasks.filter((el) => {
+        if(el.id !== payload) {
+          return el;
+        } 
+      })]
     }
   },
   actions: {
     getAllTasks: async (state) => {
       let res = await api.getTasks();
-      state.commit('setTasks' , res.data)
+      state.commit('setTasks' , res.data);
     },
     getTaskById: async (state , payload) => {
       let res = await api.getTaskById(payload);
-      state.commit('setTask' , res.data)
+      state.commit('setTask' , res.data);
     },
     createTask: async (state , payload) => {
       let res = await api.createTask(payload);
       if(res.status === 201) {
-        state.dispatch('getAllTasks')
+        state.commit('addTask' , res.data);
+        return res.statusText;
       }
     },
     updateTask: async (state , payload) => {
+      payload.updated_at = Date.now();
       let res = await api.updateTask(payload);
       if(res.status === 200) {
-        state.dispatch('getAllTasks')
+        state.commit('updateTask' , res.data);
+        return res.statusText;
       }
     },
     deleteTaskById: async (state , payload) => {
       let res = await api.deleteTaskById(payload);
       if(res.status === 200) {
-        state.dispatch('getAllTasks')
+        state.commit('deleteTask' , payload)
+        return res.statusText;
       }
     }
   },

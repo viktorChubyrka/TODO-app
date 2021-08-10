@@ -1,10 +1,10 @@
 <template>
-    <div :class="['task-item' , item.state]">
+    <div :class="['task-item' , task.state]">
         <img :src="`/icons/prioriti-${prioritiIcon}.svg`" >
-        <h3>{{ item.text }}</h3>
+        <h3>{{ task.title }}</h3>
         <div class="buttons-container">
             <img 
-                v-if="item.state==='deleted'" 
+                v-if="task.state === 'delited'" 
                 @click="reactiveDeletedItem()" 
                 class="controll-button" 
                 src="/icons/restore_icon.svg" 
@@ -20,29 +20,30 @@
 <script>
 export default {
     props: {
-        item: {
+        task: {
             type: Object
         }
     },
     methods: {
-        deleteItem() {
-            this.$store.commit('deleteTask' , this.item);
-            this.$store.commit('saveTasks');
+        async deleteItem() {
+            let status = await this.$store.dispatch('deleteTaskById' , this.task.id);
+            if(status === 'OK') {
+                this.$toastr.success('The task has been permanently deleted');
+            }
+            else this.$toastr.error('Somethink went wrong',"Oooopss..");
         },
-        reactiveDeletedItem() {
-            this.$store.commit(
-                'changeTaskState',
-                {
-                state: 'active',
-                creation_date: this.item.creation_date
-                }
-            );
-            this.$store.commit('saveTasks');
+        async reactiveDeletedItem() {
+            this.task.state = 'active';
+            let status = await this.$store.dispatch('updateTask' , this.task);
+            if(status === 'OK') {
+                this.$toastr.success('The task is now active');
+            }
+            else this.$toastr.error('Somethink went wrong',"Oooopss..");
         },
     },
     computed: {
         prioritiIcon() {
-            switch (this.item.priority) {
+            switch (this.task.priority) {
                 case "1":
                     return 'small'
                 case "2":

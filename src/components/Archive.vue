@@ -1,6 +1,6 @@
 <template>
     <div class="archive">
-        <ArchiveItem :item="item" v-for="item in archiveTasks" :key="item.creation_date"/>
+        <ArchiveItem :task="task" v-for="task in archiveTasks" :key="task.creation_date"/>
     </div>
 </template>
 <script>

@@ -49,7 +49,7 @@ export default {
         }
     },
     methods: {
-        saveTask(bvModalEvt) {
+        async saveTask(bvModalEvt) {
             bvModalEvt.preventDefault();
             if(!this.$refs['create-update-task-modal-form'].checkValidity()) {
                 return
@@ -64,8 +64,8 @@ export default {
                 state: 'active',
                 id:this.task ? this.task.id : null
             };
-            this.$store.dispatch(this.task ? 'updateTask' : 'createTask' , task);
-            this.$store.commit('saveTasks');
+            let status = await this.$store.dispatch(this.task ? 'updateTask' : 'createTask' , task);
+            this.showToastr(status);
             this.$emit('close');
         },
         resetModal() {
@@ -73,6 +73,16 @@ export default {
             this.title = '';
             this.description = '';
             this.$emit('close');
+        },
+        showToastr(status) {
+            switch (status) {
+                case 'OK':
+                    return this.$toastr.success('Task update successfully');
+                case 'Created':
+                    return this.$toastr.success('Task created successfully');
+                default:
+                    return this.$toastr.error('Somethink went wrong',"Oooopss..");
+            }
         }
     },
     mounted() {

@@ -6,7 +6,7 @@
             <div class="buttons-container">
                 <img @click="changeTaskState('complited')" class="controll-button" src="/icons/tick_icon.svg" alt="sd">
                 <img @click="show_modal = true" class="controll-button" src="/icons/update_icon.svg" alt="sd">
-                <img @click="deleteTask" class="controll-button" src="/icons/cross_icon.svg" alt="sd">
+                <img @click="changeTaskState('delited')" class="controll-button" src="/icons/cross_icon.svg" alt="sd">
             </div>
         </div>
         <CreateUpdateTaskModal 
@@ -48,19 +48,13 @@ export default {
         }
     },
     methods: {
-        changeTaskState(state) {
-            this.$store.commit(
-                'changeTaskState',
-                {
-                state,
-                created_at:this.task.created_at
-                }
-            );
-            this.$store.commit('saveTasks');
+        async changeTaskState(state) {
+            this.task.state = state;
+            let status = await this.$store.dispatch('updateTask' , this.task);
+            if(status === 'OK') {
+                this.$toastr.success(`Task was ${state} successfully, added to the archive`);
+            } else this.$toastr.error('Somethink went wrong',"Oooopss..");
         },
-        deleteTask() {
-            this.$store.dispatch('deleteTaskById' , this.task.id);
-        }
     }
 }
 </script>
