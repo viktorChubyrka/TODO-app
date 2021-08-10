@@ -5,8 +5,8 @@
             <b-collapse is-nav>
                 <b-navbar-nav class="text-white">
                     <b-nav-item-dropdown  text="Tasks">
-                        <b-dropdown-item href="/tasks/active">Active</b-dropdown-item>
-                        <b-dropdown-item href="/tasks/complited">Complited</b-dropdown-item>  
+                        <b-dropdown-item to="/tasks/active">Active</b-dropdown-item>
+                        <b-dropdown-item to="/tasks/complited">Complited</b-dropdown-item>  
                     </b-nav-item-dropdown>
                     <b-nav-item>Feature 1</b-nav-item>
                     <b-nav-item>Feature 2</b-nav-item>
