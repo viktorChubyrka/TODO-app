@@ -1,59 +1,58 @@
 <template>
-    <div :class="['task-item', item.state]">
-        <img :src="`/icons/prioriti-${prioritiIcon}.svg`" alt="">
-        <h3>{{item.text}}</h3>
+    <div :class="['task-item' , item.state]">
+        <img :src="`/icons/prioriti-${prioritiIcon}.svg`" >
+        <h3>{{ item.text }}</h3>
         <div class="buttons-container">
-            <img v-if="item.state==='deleted'" @click="reactiveDeletedItem()" class="controll-button" src="/icons/restore_icon.svg" alt="sd">
-            <img @click="deleteItem()" class="controll-button" src="/icons/cross_icon.svg" alt="sd">
+            <img 
+                v-if="item.state==='deleted'" 
+                @click="reactiveDeletedItem()" 
+                class="controll-button" 
+                src="/icons/restore_icon.svg" 
+            >
+            <img 
+                @click="deleteItem()" 
+                class="controll-button" 
+                src="/icons/cross_icon.svg" 
+            >
         </div>
     </div>
 </template>
 <script>
 export default {
-    props:{
-        item:{
-            type:Object
+    props: {
+        item: {
+            type: Object
         }
     },
-    methods:{
-        deleteItem(){
-            this.$store.commit('deleteTask',this.item);
+    methods: {
+        deleteItem() {
+            this.$store.commit('deleteTask' , this.item);
             this.$store.commit('saveTasks');
         },
-        reactiveDeletedItem(){
-            this.$store.commit('changeTaskState',{
-                state:'active',
-                creation_date:this.item.creation_date
+        reactiveDeletedItem() {
+            this.$store.commit(
+                'changeTaskState',
+                {
+                state: 'active',
+                creation_date: this.item.creation_date
                 }
             );
             this.$store.commit('saveTasks');
         },
     },
-    computed:{
-         prioritiIcon(){
+    computed: {
+        prioritiIcon() {
             switch (this.item.priority) {
                 case "1":
                     return 'small'
-
                 case "2":
                     return 'medium'
-
                 case "3":
                     return 'big'
-
                 default:
                     return ''
-
             }
-        },
+        }
     }
 }
 </script>
-<style scoped>
-.complited{
-    background-color: rgba(0, 128, 0, 0.5);
-}
-.deleted{
-     background-color: rgba(255, 0, 0, 0.5)
-}
-</style>

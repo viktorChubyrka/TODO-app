@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-navbar type="dark" variant="dark">
-            <b-navbar-brand href="#"><img src="/images/logo-header.png" alt=""></b-navbar-brand>
+            <b-navbar-brand href="#"><img class="header-logo" src="/images/logo-header.png" alt=""></b-navbar-brand>
             <b-collapse is-nav>
                 <b-navbar-nav class="text-white">
                     <b-nav-item-dropdown  text="Tasks">

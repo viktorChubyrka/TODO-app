@@ -11,7 +11,7 @@ const routes = [
     path: "/tasks",
     name: "tasks",
     component: Tasks,
-    children:[
+    children: [
       {
         path: "active",
         name: "active",

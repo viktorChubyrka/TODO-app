@@ -1,0 +1,30 @@
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2vh 1vh;
+  margin-bottom: 1vh;
+  border-radius: 1vh;
+}
+.task-item img {
+  height: 4vh;
+  width: 4vh;
+  margin: 1vh;
+}
+.buttons-container {
+  width: min-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.controll-button {
+  cursor: pointer;
+}
+h3 {
+  width: calc(80% - 4vh);
+  padding: 2vh;
+  font-size: 2.5vh;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
