@@ -45,6 +45,23 @@
                 </b-form-valid-feedback>
             </b-form-group>
         </form>
+        <template #modal-footer>
+            <div class="w-100">
+                <b-button
+                    variant="primary"
+                    class="modal-footer-btn m-1"
+                    @click="saveTask"
+                >
+                    Save
+                </b-button>
+                <b-button
+                    class="modal-footer-btn m-1"
+                    @click="resetModal"
+                >
+                    Cancel
+                </b-button>
+            </div>
+        </template>
     </b-modal>
 </template>
 <script>

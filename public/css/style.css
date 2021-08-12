@@ -5,6 +5,7 @@
 @import "archive_item.css";
 @import "archive.css";
 @import "task_table.css";
+@import "modal.css";
 
 * {
   margin: 0;
