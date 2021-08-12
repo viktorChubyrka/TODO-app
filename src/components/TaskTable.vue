@@ -10,7 +10,6 @@
             hover
             :fields="fields" 
             :items="tasks"
-            table-variant="dark"
             :busy="!tasks.length"
         >
             <template #table-busy>
