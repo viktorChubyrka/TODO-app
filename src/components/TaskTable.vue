@@ -21,35 +21,44 @@
             </template>
             <template #cell(actions)="task">
                 <div v-if="mode === 'archive'">
-                    <img 
+                    <font-awesome-icon
                         class="table-action-icon"
+                        :style="{ color: 'red' }" 
+                        icon="trash-alt"
                         @click="deleteItem(task.item)"
-                        src="/icons/cross_icon.svg" 
-                    >
-                    <img
+                        size="lg"  
+                    />
+                    <font-awesome-icon
                         v-if="task.item.state === 'delited'"
-                        class="table-action-icon" 
+                        class="table-action-icon"
+                        :style="{ color: 'orange' }" 
+                        icon="trash-restore"
                         @click="reactiveDeletedItem(task.item)"
-                        src="/icons/restore_icon.svg"
-                    >
-                    
+                        size="lg"  
+                    />
                 </div>
                 <div v-else>
-                    <img 
+                    <font-awesome-icon
                         class="table-action-icon"
+                        :style="{ color: 'red' }" 
+                        icon="archive"
                         @click="changeTaskState(task.item , 'delited')"
-                        src="/icons/cross_icon.svg" 
-                    >
-                    <img
-                        class="table-action-icon" 
+                        size="lg"  
+                    />
+                    <font-awesome-icon
+                        class="table-action-icon"
+                        :style="{ color: 'orange' }"
+                        icon="edit"
                         @click="selected_task = task.item , show_modal = true"
-                        src="/icons/update_icon.svg"
-                    >
-                    <img
-                    class="table-action-icon"
-                    @click="changeTaskState(task.item , 'complited')" 
-                    src="/icons/tick_icon.svg"
-                    >
+                        size="lg"   
+                    />
+                    <font-awesome-icon
+                        class="table-action-icon"
+                        :style="{ color: 'green' }" 
+                        icon="check-circle"
+                        @click="changeTaskState(task.item , 'complited')"
+                        size="lg" 
+                    />
                 </div>
             </template>
         </b-table>
@@ -123,22 +132,26 @@ export default {
             let status = await this.$store.dispatch('updateTask' , task);
             if(status === 'OK') {
                 this.$toastr.info(`Task was ${state} successfully, added to the archive`);
-            } else this.$toastr.error('Somethink went wrong',"Oooopss..");
+                return
+            }
+            this.$toastr.error('Somethink went wrong',"Oooopss..");
         },
         async deleteItem(task) {
             let status = await this.$store.dispatch('deleteTaskById' , task.id);
             if(status === 'OK') {
                 this.$toastr.success('The task has been permanently deleted');
+                return
             }
-            else this.$toastr.error('Somethink went wrong',"Oooopss..");
+            this.$toastr.error('Somethink went wrong',"Oooopss..");
         },
         async reactiveDeletedItem(task) {
             task.state = 'active';
             let status = await this.$store.dispatch('updateTask' , task);
             if(status === 'OK') {
                 this.$toastr.success('The task is now active');
+                return
             }
-            else this.$toastr.error('Somethink went wrong',"Oooopss..");
+            this.$toastr.error('Somethink went wrong',"Oooopss..");
         },
     }
 }
