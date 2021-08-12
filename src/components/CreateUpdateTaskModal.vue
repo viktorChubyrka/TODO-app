@@ -18,17 +18,31 @@
                     id="title-input"
                     type="text"
                     v-model="title"
+                    :state="validationTitle"
                     required
                 ></b-form-input>
+                <b-form-invalid-feedback :state="validationTitle">
+                    Task title must be 5-15 characters long.
+                </b-form-invalid-feedback>
+                <b-form-valid-feedback :state="validationTitle">
+                    Looks Good.
+                </b-form-valid-feedback>
             </b-form-group>
             <b-form-group label="Description" label-for="description-input">
                 <b-form-textarea
                     id="description-input"
                     v-model="description"
                     placeholder="Enter description...(not required)"
+                    :state="validationDescription"
                     rows="3"
                     max-rows="6"
                 ></b-form-textarea>
+                <b-form-invalid-feedback :state="validationDescription">
+                    Description can't be longer then 50 characters.
+                </b-form-invalid-feedback>
+                <b-form-valid-feedback :state="validationDescription">
+                    Looks Good.
+                </b-form-valid-feedback>
             </b-form-group>
         </form>
     </b-modal>
@@ -43,15 +57,15 @@ export default {
     data: () => {
         return{
             priority: 1,
-            title: '',
-            description: '',
+            title: null,
+            description: null,
             priority_colors: ['green' , 'orange' , 'red']
         }
     },
     methods: {
         async saveTask(bvModalEvt) {
             bvModalEvt.preventDefault();
-            if(!this.$refs['create-update-task-modal-form'].checkValidity()) {
+            if(!this.isFormValid) {
                 return
             }
             let current_date = Date.now();
@@ -70,8 +84,8 @@ export default {
         },
         resetModal() {
             this.priority = '1';
-            this.title = '';
-            this.description = '';
+            this.title = null;
+            this.description = null;
             this.$emit('close');
         },
         showToastr(status) {
@@ -83,6 +97,23 @@ export default {
                 default:
                     return this.$toastr.error('Somethink went wrong',"Oooopss..");
             }
+        }
+    },
+    computed: {
+        validationTitle() {
+            if(!this.title && (typeof this.title) !== 'string') {
+                return null
+            }
+            return this.title.length > 4 && this.title.length < 15
+        },
+        validationDescription() {
+            if(!this.description) {
+                return null
+            }
+            return this.description.length < 50
+        },
+        isFormValid() {
+            return this.validationTitle && this.validationDescription
         }
     },
     mounted() {
