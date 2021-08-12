@@ -9,8 +9,8 @@
                 <b-form-rating
                     id="priority-input"
                     v-model="priority"
-                    :color="priority_colors[priority-1]"
-                    stars="3"
+                    :color="priorityColor(priority - 1)"
+                    :stars="3"
                 ></b-form-rating>
             </b-form-group>
             <b-form-group label="Title" label-for="title-input">
@@ -56,7 +56,7 @@ export default {
     },
     data: () => {
         return{
-            priority: 1,
+            priority: null,
             title: null,
             description: null,
             priority_colors: ['green' , 'orange' , 'red']
@@ -97,6 +97,12 @@ export default {
                 default:
                     return this.$toastr.error('Somethink went wrong',"Oooopss..");
             }
+        },
+        priorityColor(priority){
+            if(priority > 2) {
+                return 'red';
+            }
+            return this.priority_colors[priority]
         }
     },
     computed: {
@@ -119,7 +125,7 @@ export default {
     mounted() {
         this.$refs['create-update-task-modal'].show();
         if(this.task) {
-            this.priority = this.task.priority;
+            this.priority = this.task.priority > 3 ? 3 : this.task.priority;
             this.title = this.task.title;
             this.description = this.task.description;
         }
