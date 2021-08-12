@@ -19,6 +19,12 @@
                     <strong>Loading...</strong>
                 </div>
             </template>
+            <template #cell(created_at)="task">
+                {{formatDate(task.item.created_at)}}
+            </template>
+            <template #cell(updated_at)="task">
+                {{formatDate(task.item.updated_at)}}
+            </template>
             <template #cell(actions)="task">
                 <div v-if="mode === 'archive'">
                     <font-awesome-icon
@@ -66,6 +72,7 @@
 </template>
 <script>
 import CreateUpdateTaskModal from "@/components/CreateUpdateTaskModal.vue"
+import moment from 'moment'
 
 export default {
     components: {
@@ -127,6 +134,9 @@ export default {
         }
     },
     methods: {
+        formatDate(date) {
+            return moment(date).format('MMMM Do YYYY, h:mm:ss a')
+        },
         async changeTaskState(task,state) {
             task.state = state;
             let status = await this.$store.dispatch('updateTask' , task);
