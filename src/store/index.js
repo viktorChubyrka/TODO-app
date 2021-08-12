@@ -7,7 +7,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     tasks: [],
-    task: null
+    task: null,
+    selected_tasks: []
   },
   getters: {
     active_tasks: (state) => {
@@ -16,6 +17,9 @@ export default new Vuex.Store({
           return el;
         }
       })
+    },
+    selected_tasks: (state) => {
+      return state.selected_tasks;
     },
     archive_tasks: (state) => {
       return state.tasks.filter((el) => {
@@ -29,6 +33,21 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    setSelectedTasks: (state , payload) => {
+      // Check if this element is in the array.
+      // If so it returns the index of this element and otherwise -1.
+      let elIndex = state.selected_tasks.findIndex((el) => {
+        return el.id === payload.id;
+      })
+      // If the variable is -1 add the element to the array
+      // and get out from the function
+      if(elIndex === -1){
+        state.selected_tasks = [payload , ...state.selected_tasks];
+        return
+      }
+      // Else delete the item from array
+      state.selected_tasks.splice(elIndex,1);
+    },
     setTasks: (state , payload) => {
       state.tasks = payload;
     },

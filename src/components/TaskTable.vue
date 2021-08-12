@@ -11,6 +11,8 @@
             :fields="fields" 
             :items="tasks"
             :busy="!tasks.length"
+            @row-clicked="selectItem"
+            :tbody-tr-class="selectedRowClass"
         >
             <template #table-busy>
                 <div class="text-center text-danger my-2">
@@ -30,7 +32,7 @@
                         class="table-action-icon"
                         :style="{ color: 'red' }" 
                         icon="trash-alt"
-                        @click="deleteItem(task.item)"
+                        @click.stop="deleteItem(task.item)"
                         size="lg"  
                     />
                     <font-awesome-icon
@@ -38,7 +40,7 @@
                         class="table-action-icon"
                         :style="{ color: 'orange' }" 
                         icon="trash-restore"
-                        @click="reactiveDeletedItem(task.item)"
+                        @click.stop="reactiveDeletedItem(task.item)"
                         size="lg"  
                     />
                 </div>
@@ -47,21 +49,21 @@
                         class="table-action-icon"
                         :style="{ color: 'red' }" 
                         icon="archive"
-                        @click="changeTaskState(task.item , 'delited')"
+                        @click.stop="changeTaskState(task.item , 'delited')"
                         size="lg"  
                     />
                     <font-awesome-icon
                         class="table-action-icon"
                         :style="{ color: 'orange' }"
                         icon="edit"
-                        @click="selected_task = task.item , show_modal = true"
+                        @click.stop="selected_task = task.item , show_modal = true"
                         size="lg"   
                     />
                     <font-awesome-icon
                         class="table-action-icon"
                         :style="{ color: 'green' }" 
                         icon="check-circle"
-                        @click="changeTaskState(task.item , 'complited')"
+                        @click.stop="changeTaskState(task.item , 'complited')"
                         size="lg" 
                     />
                 </div>
@@ -87,6 +89,7 @@ export default {
     },
     data: () => {
         return {
+            selected_items: [],
             show_modal: false,
             selected_task:null,
             fields: [
@@ -130,9 +133,24 @@ export default {
                 default:
                     return ''
             }
+        },
+        selectedTasks() {
+            return this.$store.getters.selected_tasks;
         }
     },
     methods: {
+        selectedRowClass(item) {
+            let isInArray = this.selectedTasks.findIndex((el) => {
+                return el.id === item.id
+            })
+            if(isInArray !== -1) {
+                return "table-success"
+            }
+            
+        },
+        selectItem(item) {
+            this.$store.commit('setSelectedTasks' , item);
+        },
         formatDate(date) {
             return moment(date).format('MMMM Do YYYY, h:mm:ss a')
         },
