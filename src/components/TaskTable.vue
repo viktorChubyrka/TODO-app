@@ -13,6 +13,8 @@
             :busy="!tasks.length"
             @row-clicked="selectItem"
             :tbody-tr-class="selectedRowClass"
+            :per-page="10"
+            :current-page="current_page"
         >
             <template #table-busy>
                 <div class="text-center text-danger my-2">
@@ -85,6 +87,9 @@ export default {
         },
         mode: {
             type: String
+        },
+        current_page: {
+            type: Number
         }
     },
     data: () => {

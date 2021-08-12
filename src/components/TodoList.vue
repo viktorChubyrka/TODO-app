@@ -4,7 +4,7 @@
             <b-button variant="dark" class="m-2" @click="show_modal = true" >Create task</b-button>
         </div>
         <div class="table-wrapper">
-            <TaskTable :tasks="paginatedData" />
+            <TaskTable :current_page="current_page + 1" :tasks="activeTasks" />
         </div>
         <Paginator
             v-if="pageCount > 1"
@@ -40,14 +40,6 @@ export default {
     computed: {
         activeTasks() {
             return this.$store.getters.active_tasks;
-        },
-        paginatedData() {
-            const start = this.current_page * 10,
-            end = start + 10;
-            if(this.search) {
-                return this.searchResult.slice(start , end);
-            }
-            return this.activeTasks.slice(start , end);
         },
         pageCount() {
             let tasksLength = null;
