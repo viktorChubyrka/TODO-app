@@ -10,21 +10,11 @@
       hover
       :fields="fields"
       :items="tasks"
-      :busy="tasks === null"
       @row-clicked="selectItem"
       :tbody-tr-class="selectedRowClass"
       :per-page="8"
       :current-page="current_page"
     >
-      <template #table-busy>
-        <div class="text-center text-danger my-2">
-          <b-spinner class="align-middle"></b-spinner>
-          <strong>Loading...</strong>
-        </div>
-        <div class="text-center text-danger my-2">
-          <strong>Table is empty</strong>
-        </div>
-      </template>
       <template #cell(created_at)="task">
         {{ formatDate(task.item.created_at) }}
       </template>
@@ -131,6 +121,12 @@ export default {
     };
   },
   computed: {
+    areLoading() {
+      if (this.tasks[1] === 'empty' || this.tasks.length) {
+        return false;
+      }
+      return true;
+    },
     prioritiIcon() {
       switch (this.task.priority) {
         case 1:

@@ -1,22 +1,21 @@
 <template>
-    <div class="archive">
-        <div class="table-wrapper">
-            <TaskTable :tasks="archiveTasks" mode="archive"/>
-        </div>
+  <div class="archive">
+    <div class="table-wrapper">
+      <TaskTable :tasks="archiveTasks" mode="archive" />
     </div>
+  </div>
 </template>
 <script>
-import TaskTable from "@/components/TaskTable.vue"
+import TaskTable from '@/components/TaskTable.vue';
 
 export default {
-    components: {
-        TaskTable
+  components: {
+    TaskTable,
+  },
+  computed: {
+    archiveTasks() {
+      return this.$store.getters.archive_tasks;
     },
-    computed: {
-        archiveTasks() {
-            return this.$store.getters.archive_tasks;
-        }
-       
-    }
-}
+  },
+};
 </script>

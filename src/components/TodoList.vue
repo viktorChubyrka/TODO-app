@@ -1,9 +1,9 @@
 <template>
   <div class="todo-list">
     <div class="action-panel">
-      <b-button variant="dark" class="m-2" @click="show_modal = true"
-        >Create task</b-button
-      >
+      <b-button variant="dark" class="m-2" @click="show_modal = true">
+        Create task
+      </b-button>
     </div>
     <div class="table-wrapper">
       <TaskTable :current_page="current_page + 1" :tasks="activeTasks" />
