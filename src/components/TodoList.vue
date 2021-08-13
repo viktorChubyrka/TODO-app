@@ -45,10 +45,10 @@ export default {
             let tasksLength = null;
             if(this.search) tasksLength = this.searchResult.length;
             else tasksLength = this.activeTasks.length;
-            if(tasksLength % 10) {
-                return Math.floor(tasksLength / 10) + 1;
+            if(tasksLength % 8) {
+                return Math.floor(tasksLength / 8) + 1;
             }
-            return Math.floor(tasksLength / 10); 
+            return Math.floor(tasksLength / 8); 
         }
     },
     methods: {

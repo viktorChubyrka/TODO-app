@@ -8,9 +8,14 @@ export default new Vuex.Store({
   state: {
     tasks: [],
     task: null,
+    activeReq: null,
     selected_tasks: []
   },
   getters: {
+    loading(state) {
+      if (!state.activeReq) return false;
+      return state.activeReq.msg === 'Loading';
+    },
     active_tasks: (state) => {
       return state.tasks.filter((el) => {
         if(el.state !== 'complited' && el.state !== 'delited') {
@@ -30,9 +35,19 @@ export default new Vuex.Store({
     },
     task: (state) => {
       return state.task;
-    }
+    },
   },
   mutations: {
+    addRequest: (state, req) => {
+      state.activeReq = { cancel: req.cancel, msg: 'Loading' };
+    },
+    cancelReq(state) {
+      state.activeReq.cancel();
+      state.activeReq = null;
+    },
+    clearOldRequest(state) {
+      state.activeReq = null;
+    },
     setSelectedTasks: (state , payload) => {
       // Check if this element is in the array.
       // If so it returns the index of this element and otherwise -1.
@@ -74,6 +89,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    addRequest({ state, commit }, req) {
+      if (state.activeReq) commit("cancelReq");
+      commit("addRequest", req);
+    },
     getAllTasks: async (state) => {
       let res = await api.getTasks();
       state.commit('setTasks' , res.data);
@@ -84,7 +103,7 @@ export default new Vuex.Store({
     },
     createTask: async (state , payload) => {
       let res = await api.createTask(payload);
-      if(res.status === 201) {
+      if(res?.status === 201) {
         state.commit('addTask' , res.data);
         return res.statusText;
       }
@@ -92,14 +111,14 @@ export default new Vuex.Store({
     updateTask: async (state , payload) => {
       payload.updated_at = Date.now();
       let res = await api.updateTask(payload);
-      if(res.status === 200) {
+      if(res?.status === 200) {
         state.commit('updateTask' , res.data);
         return res.statusText;
       }
     },
     deleteTaskById: async (state , payload) => {
       let res = await api.deleteTaskById(payload);
-      if(res.status === 200) {
+      if(res?.status === 200) {
         state.commit('deleteTask' , payload)
         return res.statusText;
       }

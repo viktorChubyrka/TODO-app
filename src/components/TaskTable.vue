@@ -13,7 +13,7 @@
             :busy="!tasks.length"
             @row-clicked="selectItem"
             :tbody-tr-class="selectedRowClass"
-            :per-page="10"
+            :per-page="8"
             :current-page="current_page"
         >
             <template #table-busy>

@@ -1,7 +1,32 @@
 import axios from 'axios';
+import store from "../store";
 
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 
+function request(request) {
+    const axiosSource = axios.CancelToken.source();
+    request.cancelToken = axiosSource.token;
+    store.dispatch("addRequest", { ...request, cancel: axiosSource.cancel });
+    return request;
+}
+  
+function requestError() {
+    store.commit("clearOldRequest");
+}
+  
+function response(response) {
+    store.commit("clearOldRequest");
+    return response;
+}
+  
+function responseError(error) {
+    if (axios.isCancel(error)) console.log("Request is cancelled");
+    else console.log("Unknown error");
+}
+  
+axios.interceptors.request.use(request, requestError);
+axios.interceptors.response.use(response, responseError);
+  
 
 axios.interceptors.response.use(function (response) {
   // Any status code that lie within the range of 2xx cause this function to trigger
