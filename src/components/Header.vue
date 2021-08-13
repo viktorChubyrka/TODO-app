@@ -17,14 +17,11 @@
                     <b-nav-item class="m-2">Feature 3</b-nav-item>
                     <b-nav-item class="m-2">Feature 4</b-nav-item>
                 </b-navbar-nav>
-                <b-row class="w-25">
-                    <b-col cols="8">
-                        <b-form-input placeholder="Search"></b-form-input>
-                    </b-col>
-                    <b-col cols="3">
-                        <b-button  variant="outline-success">Search</b-button>
-                    </b-col>
-                </b-row>
+                <div class="w-25 search-container">
+                    <b-form-input placeholder="Search"></b-form-input>
+                    <b-button  variant="outline-success">Search</b-button>
+                </div>
+                    
             </b-collapse>  
         </b-navbar>
     </div>
