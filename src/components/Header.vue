@@ -17,17 +17,27 @@
                     <b-nav-item class="m-2">Feature 3</b-nav-item>
                     <b-nav-item class="m-2">Feature 4</b-nav-item>
                 </b-navbar-nav>
-                <div class="w-25 search-container">
+                <div v-if="canSearch" class="w-25 search-container">
                     <b-form-input placeholder="Search"></b-form-input>
                     <b-button  variant="outline-success">Search</b-button>
                 </div>
-                    
             </b-collapse>  
         </b-navbar>
     </div>
 </template>
+<script>
+
+export default {
+    computed: {
+        canSearch() {
+            return this.$route.name === 'active' || this.$route.name === 'complited'
+        }
+    }
+}
+</script>
+
 <style scoped>
-.ds{
+.ds {
     justify-content: space-between;
 }
 </style>
