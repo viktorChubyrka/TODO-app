@@ -51,8 +51,10 @@
                     variant="primary"
                     class="modal-footer-btn m-1"
                     @click="saveTask"
+                    :disabled="is_save_disabled"
                 >
-                    Save
+                    <b-spinner small v-if="is_save_disabled" label="Spinning"></b-spinner>
+                    <span v-else>Save</span>
                 </b-button>
                 <b-button
                     class="modal-footer-btn m-1"
@@ -76,7 +78,8 @@ export default {
             priority: null,
             title: null,
             description: null,
-            priority_colors: ['green' , 'orange' , 'red']
+            priority_colors: ['green' , 'orange' , 'red'],
+            is_save_disabled: false
         }
     },
     methods: {
@@ -85,6 +88,7 @@ export default {
             if(!this.isFormValid) {
                 return
             }
+            this.is_save_disabled = true;
             let current_date = Date.now();
             let task = {
                 priority: this.priority,
@@ -98,6 +102,7 @@ export default {
             let status = await this.$store.dispatch(this.task ? 'updateTask' : 'createTask' , task);
             this.showToastr(status);
             this.$emit('close');
+            this.is_save_disabled = false;
         },
         resetModal() {
             this.priority = '1';
