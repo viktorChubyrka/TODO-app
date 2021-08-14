@@ -15,6 +15,9 @@
       :per-page="8"
       :current-page="current_page"
     >
+      <template #cell(end_date)="task">
+        {{ formatDate(task.item.end_date) }}
+      </template>
       <template #cell(created_at)="task">
         {{ formatDate(task.item.created_at) }}
       </template>
@@ -107,6 +110,10 @@ export default {
           key: 'description',
         },
         {
+          key: 'end_date',
+          sortable: true,
+        },
+        {
           key: 'created_at',
           sortable: true,
         },
@@ -158,7 +165,7 @@ export default {
       }
     },
     formatDate(date) {
-      return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+      return moment(date).format('MMM Do YYYY');
     },
     async changeTaskState(task, state) {
       task.state = state;

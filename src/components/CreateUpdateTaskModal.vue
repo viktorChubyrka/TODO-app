@@ -9,6 +9,16 @@
           :stars="3"
         ></b-form-rating>
       </b-form-group>
+      <b-form-group label="End Date" label-for="end_date_datepicker">
+        <b-form-datepicker
+          :min="dateNow"
+          locale="en"
+          id="end_date_datepicker"
+          v-model="end_date"
+          class="mb-2"
+          required
+        ></b-form-datepicker>
+      </b-form-group>
       <b-form-group label="Title" label-for="title-input">
         <b-form-input
           id="title-input"
@@ -73,6 +83,7 @@ export default {
       description: null,
       priority_colors: ['green', 'orange', 'red'],
       is_save_disabled: false,
+      end_date: null,
     };
   },
   methods: {
@@ -89,6 +100,7 @@ export default {
         description: this.description,
         created_at: this.task ? this.task.created_at : current_date,
         updated_at: current_date,
+        end_date: this.end_date,
         state: 'active',
         id: this.task ? this.task.id : null,
       };
@@ -124,6 +136,10 @@ export default {
     },
   },
   computed: {
+    dateNow() {
+      const now = new Date();
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    },
     validationTitle() {
       if (!this.title && typeof this.title !== 'string') {
         return null;
@@ -137,7 +153,9 @@ export default {
       return this.description.length < 50;
     },
     isFormValid() {
-      return this.validationTitle && this.validationDescription;
+      return (
+        this.validationTitle && this.validationDescription && this.end_date
+      );
     },
   },
   mounted() {
