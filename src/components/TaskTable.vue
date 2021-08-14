@@ -153,7 +153,9 @@ export default {
       }
     },
     selectItem(item) {
-      this.$store.commit('setSelectedTasks', item);
+      if (item.state !== 'delited' && item.state !== 'complited') {
+        this.$store.commit('setSelectedTasks', item);
+      }
     },
     formatDate(date) {
       return moment(date).format('MMMM Do YYYY, h:mm:ss a');

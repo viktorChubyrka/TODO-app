@@ -1,11 +1,11 @@
-@import "paginator.css";
-@import "todo_list.css";
-@import "task_item.css";
-@import "header.css";
-@import "archive_item.css";
-@import "archive.css";
-@import "task_table.css";
-@import "modal.css";
+@import 'paginator.css';
+@import 'todo_list.css';
+@import 'task_item.css';
+@import 'header.css';
+@import 'archive_item.css';
+@import 'archive.css';
+@import 'task_table.css';
+@import 'modal.css';
 
 * {
   margin: 0;
@@ -17,4 +17,10 @@ body::-webkit-scrollbar {
 }
 tr {
   cursor: pointer;
+}
+.flex-container-wrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
 }

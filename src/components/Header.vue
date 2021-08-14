@@ -16,7 +16,12 @@
             <b-dropdown-item to="/tasks/active">Active</b-dropdown-item>
             <b-dropdown-item to="/tasks/complited">Complited</b-dropdown-item>
           </b-nav-item-dropdown>
-          <b-nav-item class="m-2">Feature 1</b-nav-item>
+          <b-nav-item
+            :active="$route.name === 'special_list'"
+            to="/special_list"
+            class="m-2"
+            >Special list</b-nav-item
+          >
           <b-nav-item class="m-2">Feature 2</b-nav-item>
           <b-nav-item class="m-2">Feature 3</b-nav-item>
           <b-nav-item class="m-2">Feature 4</b-nav-item>

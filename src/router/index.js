@@ -1,37 +1,43 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Tasks from "../views/Tasks.vue";
-import TodoList from "../components/TodoList.vue"
-import Archive from "../components/Archive.vue"
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Tasks from '../views/Tasks.vue';
+import TodoList from '../components/TodoList.vue';
+import Archive from '../components/Archive.vue';
+import SpecialList from '../views/SpecialList.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/tasks",
-    name: "tasks",
+    path: '/tasks',
+    name: 'tasks',
     component: Tasks,
     children: [
       {
-        path: "active",
-        name: "active",
+        path: 'active',
+        name: 'active',
         component: TodoList,
       },
       {
-        path: "complited",
-        name: "complited",
+        path: 'complited',
+        name: 'complited',
         component: Archive,
-      }
-    ]
+      },
+    ],
   },
   {
-    path: "*",
-    redirect: '/tasks/active'
-  }
+    path: '/special_list',
+    name: 'special_list',
+    component: SpecialList,
+  },
+  {
+    path: '*',
+    redirect: '/tasks/active',
+  },
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
   routes,
 });

@@ -4,6 +4,14 @@
       <b-button variant="dark" class="m-2" @click="show_modal = true">
         Create task
       </b-button>
+      <span v-if="areTaskSelected">
+        <b-button variant="info" class="m-2 text-white" to="/special_list">
+          View selected items
+        </b-button>
+        <b-button variant="danger" @click="clearSelection" class="m-2">
+          Clear selection
+        </b-button>
+      </span>
     </div>
     <div class="table-wrapper">
       <TaskTable :current_page="current_page + 1" :tasks="activeTasks" />
@@ -49,10 +57,16 @@ export default {
       }
       return Math.floor(tasksLength / 8);
     },
+    areTaskSelected() {
+      return this.$store.getters.selected_tasks.length;
+    },
   },
   methods: {
     setPage(page) {
       if (page >= 0 && page < this.pageCount) this.current_page = page;
+    },
+    clearSelection() {
+      this.$store.commit('clearSelectedTasks');
     },
   },
 };

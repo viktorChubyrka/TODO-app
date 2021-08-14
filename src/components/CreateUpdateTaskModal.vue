@@ -49,7 +49,7 @@
           @click="saveTask"
           :disabled="is_save_disabled"
         >
-          <b-spinner small v-if="is_save_disabled" label="Spinning"></b-spinner>
+          <b-spinner small v-if="is_save_disabled"></b-spinner>
           <span v-else>Save</span>
         </b-button>
         <b-button class="modal-footer-btn m-1" @click="resetModal">

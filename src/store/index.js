@@ -58,6 +58,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    clearSelectedTasks: (state) => {
+      state.selected_tasks = [];
+    },
     setSearchInput: (state, payload) => {
       state.search_input = payload;
     },
