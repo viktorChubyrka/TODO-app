@@ -4,12 +4,21 @@ import api from '@/api/';
 
 Vue.use(Vuex);
 
+const searchFilter = function (tasks, search_input) {
+  return tasks.filter((el) => {
+    if (el.title.includes(search_input)) {
+      return el;
+    }
+  });
+};
+
 export default new Vuex.Store({
   state: {
     tasks: [],
     task: null,
     activeReq: null,
     selected_tasks: [],
+    search_input: null,
   },
   getters: {
     loading(state) {
@@ -17,27 +26,41 @@ export default new Vuex.Store({
       return state.activeReq.msg === 'Loading';
     },
     active_tasks: (state) => {
-      return state.tasks.filter((el) => {
+      let tasks = state.tasks.filter((el) => {
         if (el.state !== 'complited' && el.state !== 'delited') {
           return el;
         }
       });
+      if (!state.search_input) {
+        return tasks;
+      }
+      return searchFilter(tasks, state.search_input);
     },
     selected_tasks: (state) => {
       return state.selected_tasks;
     },
     archive_tasks: (state) => {
-      return state.tasks.filter((el) => {
+      let tasks = state.tasks.filter((el) => {
         if (el.state !== 'active') {
           return el;
         }
       });
+      if (!state.search_input) {
+        return tasks;
+      }
+      return searchFilter(tasks, state.search_input);
     },
     task: (state) => {
       return state.task;
     },
+    search_input: (state) => {
+      return state.search_input;
+    },
   },
   mutations: {
+    setSearchInput: (state, payload) => {
+      state.search_input = payload;
+    },
     addRequest: (state, req) => {
       state.activeReq = { cancel: req.cancel, msg: 'Loading' };
     },
