@@ -4,6 +4,9 @@
       <b-button variant="dark" class="m-2" @click="show_modal = true">
         Create task
       </b-button>
+      <b-button variant="dark" class="m-2" v-b-toggle.sidebar-variant
+        >Filters
+      </b-button>
       <span v-if="areTaskSelected">
         <b-button variant="info" class="m-2 text-white" to="/special_list">
           View selected items

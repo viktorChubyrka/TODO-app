@@ -4,10 +4,37 @@ import api from '@/api/';
 
 Vue.use(Vuex);
 
-const searchFilter = function (tasks, search_input) {
-  return tasks.filter((el) => {
-    if (el.title.includes(search_input)) {
+const Filter = function (tasks, state) {
+  let tasks_search = tasks.filter((el) => {
+    if (el.title.includes(state.search_input)) {
       return el;
+    }
+  });
+  return tasks_search.filter((el) => {
+    console.log(1);
+    if (!state.filters.end_date.from && !state.filters.end_date.to) {
+      return el;
+    }
+    if (state.filters.end_date.from && state.filters.end_date.to) {
+      if (
+        el.end_date >= state.filters.end_date.from &&
+        el.end_date <= state.filters.end_date.to
+      ) {
+        console.log(2);
+        return el;
+      }
+    }
+    if (state.filters.end_date.from) {
+      if (el.end_date >= state.filters.end_date.from) {
+        console.log(3);
+        return el;
+      }
+    }
+    if (state.filters.end_date.to) {
+      if (el.end_date <= state.filters.end_date.to) {
+        console.log(4);
+        return el;
+      }
     }
   });
 };
@@ -18,7 +45,13 @@ export default new Vuex.Store({
     task: null,
     activeReq: null,
     selected_tasks: [],
-    search_input: null,
+    search_input: '',
+    filters: {
+      end_date: {
+        from: null,
+        to: null,
+      },
+    },
   },
   getters: {
     loading(state) {
@@ -31,10 +64,7 @@ export default new Vuex.Store({
           return el;
         }
       });
-      if (!state.search_input) {
-        return tasks;
-      }
-      return searchFilter(tasks, state.search_input);
+      return Filter(tasks, state);
     },
     selected_tasks: (state) => {
       return state.selected_tasks;
@@ -45,10 +75,7 @@ export default new Vuex.Store({
           return el;
         }
       });
-      if (!state.search_input) {
-        return tasks;
-      }
-      return searchFilter(tasks, state.search_input);
+      return Filter(tasks, state);
     },
     task: (state) => {
       return state.task;
@@ -58,6 +85,17 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    clearFilter: (state) => {
+      state.filters = {
+        end_date: {
+          from: null,
+          to: null,
+        },
+      };
+    },
+    setFilter: (state, payload) => {
+      state.filters[payload.section] = payload.filter;
+    },
     clearSelectedTasks: (state) => {
       state.selected_tasks = [];
     },
