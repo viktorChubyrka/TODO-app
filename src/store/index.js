@@ -1,43 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import api from '@/api/';
+import Filter from '../methods/FilterInDateRange.js';
 
 Vue.use(Vuex);
-
-const Filter = function (tasks, state) {
-  let tasks_search = tasks.filter((el) => {
-    if (el.title.includes(state.search_input)) {
-      return el;
-    }
-  });
-  return tasks_search.filter((el) => {
-    console.log(1);
-    if (!state.filters.end_date.from && !state.filters.end_date.to) {
-      return el;
-    }
-    if (state.filters.end_date.from && state.filters.end_date.to) {
-      if (
-        el.end_date >= state.filters.end_date.from &&
-        el.end_date <= state.filters.end_date.to
-      ) {
-        console.log(2);
-        return el;
-      }
-    }
-    if (state.filters.end_date.from) {
-      if (el.end_date >= state.filters.end_date.from) {
-        console.log(3);
-        return el;
-      }
-    }
-    if (state.filters.end_date.to) {
-      if (el.end_date <= state.filters.end_date.to) {
-        console.log(4);
-        return el;
-      }
-    }
-  });
-};
 
 export default new Vuex.Store({
   state: {
