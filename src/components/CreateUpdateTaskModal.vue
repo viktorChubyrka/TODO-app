@@ -154,7 +154,10 @@ export default {
       return this.title.length > 4 && this.title.length < 15;
     },
     validationEndDate() {
-      return this.end_date !== null;
+      if (this.end_date === null) {
+        return null;
+      }
+      return true;
     },
     validationDescription() {
       if (!this.description) {
