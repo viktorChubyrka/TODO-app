@@ -11,6 +11,7 @@
       </b-form-group>
       <b-form-group label="End Date" label-for="end_date_datepicker">
         <b-form-datepicker
+          :state="validationEndDate"
           :min="dateNow"
           locale="en"
           id="end_date_datepicker"
@@ -18,6 +19,12 @@
           class="mb-2"
           required
         ></b-form-datepicker>
+        <b-form-invalid-feedback :state="validationEndDate">
+          Please enter valid date
+        </b-form-invalid-feedback>
+        <b-form-valid-feedback :state="validationEndDate">
+          Looks Good.
+        </b-form-valid-feedback>
       </b-form-group>
       <b-form-group label="Title" label-for="title-input">
         <b-form-input
@@ -146,6 +153,9 @@ export default {
       }
       return this.title.length > 4 && this.title.length < 15;
     },
+    validationEndDate() {
+      return this.end_date !== null;
+    },
     validationDescription() {
       if (!this.description) {
         return null;
@@ -164,6 +174,7 @@ export default {
       this.priority = this.task.priority > 3 ? 3 : this.task.priority;
       this.title = this.task.title;
       this.description = this.task.description;
+      this.end_date = this.task.end_date;
     }
   },
 };

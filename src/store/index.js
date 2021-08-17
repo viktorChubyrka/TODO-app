@@ -26,7 +26,11 @@ export default new Vuex.Store({
     },
     active_tasks: (state) => {
       let tasks = state.tasks.filter((el) => {
-        if (el.state !== 'complited' && el.state !== 'delited') {
+        if (
+          el.state !== 'complited' &&
+          el.state !== 'delited' &&
+          el.title.includes(state.search_input)
+        ) {
           return el;
         }
       });
@@ -37,7 +41,7 @@ export default new Vuex.Store({
     },
     archive_tasks: (state) => {
       let tasks = state.tasks.filter((el) => {
-        if (el.state !== 'active') {
+        if (el.state !== 'active' && el.title.includes(state.search_input)) {
           return el;
         }
       });
