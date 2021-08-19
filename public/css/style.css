@@ -33,3 +33,7 @@ tr {
   height: 35vh;
   object-fit: cover;
 }
+.danger {
+  color: red;
+  margin: 0;
+}

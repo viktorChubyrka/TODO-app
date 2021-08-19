@@ -1,20 +1,20 @@
-import Vue from "vue";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
+import Vue from 'vue';
+import App from './App.vue';
+import router from './router';
+import store from './store';
 
 //Bootstrap import
-import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
-import "vue-toastr-2/dist/vue-toastr-2.min.css";
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+import 'vue-toastr-2/dist/vue-toastr-2.min.css';
 
 //Toastr import
-import VueToastr2 from "vue-toastr-2";
+import VueToastr2 from 'vue-toastr-2';
 
 //Font Awesome import
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 //Font Awesome icon imports
 
@@ -24,7 +24,7 @@ import {
   faTrashAlt,
   faTrashRestore,
   faArchive,
-} from "@fortawesome/free-solid-svg-icons";
+} from '@fortawesome/free-solid-svg-icons';
 
 library.add({
   faEdit,
@@ -34,13 +34,18 @@ library.add({
   faArchive,
 });
 
-window.toastr = require("toastr");
+//Vuelidate import
+
+import Vuelidate from 'vuelidate';
+
+window.toastr = require('toastr');
 
 Vue.use(VueToastr2);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+Vue.use(Vuelidate);
 
-Vue.component("font-awesome-icon", FontAwesomeIcon);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.config.productionTip = false;
 
@@ -48,4 +53,4 @@ new Vue({
   router,
   store,
   render: (h) => h(App),
-}).$mount("#app");
+}).$mount('#app');
