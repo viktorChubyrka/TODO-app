@@ -1,166 +1,84 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import api from '@/api/';
-import Filter from '../methods/FilterInDateRange.js';
+import groups from './modules/groups';
+import tasks from './modules/tasks';
 
 Vue.use(Vuex);
 
+let isTaskInGroup = (groups, payload) => {
+  for (let i = 0; i < groups.length; i++) {
+    if (groups[i]?.tasks?.some((task) => task.taskId === payload.id)) {
+      return true;
+    }
+  }
+  return false;
+};
+
 export default new Vuex.Store({
   state: {
-    tasks: [],
-    task: null,
     activeReq: null,
-    selected_tasks: [],
-    search_input: '',
-    filters: {
-      end_date: {
-        from: null,
-        to: null,
-      },
-    },
+    cancel_token_active: true,
   },
   getters: {
     loading(state) {
       if (!state.activeReq) return false;
       return state.activeReq.msg === 'Loading';
     },
+    cancel_token_active: (state) => {
+      return state.cancel_token_active;
+    },
     active_tasks: (state) => {
-      let tasks = state.tasks.filter((el) => {
-        if (
-          el.state !== 'complited' &&
-          el.state !== 'delited' &&
-          el.title.includes(state.search_input)
-        ) {
-          return el;
+      return state.tasks.tasks.filter((el) => {
+        let end_date = new Date(el.end_date).getTime();
+        let from = new Date(state.tasks.filters.end_date.from).getTime();
+        let to = new Date(state.tasks.filters.end_date.to).getTime();
+
+        // Check for 'active' tasks
+        if (el.state === 'complited' || el.state === 'delited') {
+          return false;
         }
-      });
-      return Filter(tasks, state);
-    },
-    selected_tasks: (state) => {
-      return state.selected_tasks;
-    },
-    archive_tasks: (state) => {
-      let tasks = state.tasks.filter((el) => {
-        if (el.state !== 'active' && el.title.includes(state.search_input)) {
-          return el;
+        // Check for match the filter
+        if (from >= end_date || (to && to <= end_date)) {
+          return false;
         }
+        // Check for belonging to a group
+        if (isTaskInGroup(state.groups.groups, el)) {
+          return false;
+        }
+        // Check for match the search
+        if (el.title.includes(state.tasks.search_input)) {
+          return true;
+        }
+        return false;
       });
-      return Filter(tasks, state);
-    },
-    task: (state) => {
-      return state.task;
-    },
-    search_input: (state) => {
-      return state.search_input;
     },
   },
   mutations: {
-    clearFilter: (state) => {
-      state.filters = {
-        end_date: {
-          from: null,
-          to: null,
-        },
-      };
-    },
-    setFilter: (state, payload) => {
-      state.filters[payload.section] = payload.filter;
-    },
-    clearSelectedTasks: (state) => {
-      state.selected_tasks = [];
-    },
-    setSearchInput: (state, payload) => {
-      state.search_input = payload;
+    setCancelTokenActive: (state) => {
+      state.cancel_token_active = !state.cancel_token_active;
     },
     addRequest: (state, req) => {
-      state.activeReq = { cancel: req.cancel, msg: 'Loading' };
+      state.activeReq = { url: req.url, cancel: req.cancel, msg: 'Loading' };
     },
-    cancelReq(state) {
+    cancelReq: (state) => {
       state.activeReq.cancel();
       state.activeReq = null;
     },
-    clearOldRequest(state) {
+    clearOldRequest: (state) => {
       state.activeReq = null;
-    },
-    setSelectedTasks: (state, payload) => {
-      // Check if this element is in the array.
-      // If so it returns the index of this element and otherwise -1.
-      let elIndex = state.selected_tasks.findIndex((el) => {
-        return el.id === payload.id;
-      });
-      // If the variable is -1 add the element to the array
-      // and get out from the function
-      if (elIndex === -1) {
-        state.selected_tasks = [payload, ...state.selected_tasks];
-        return;
-      }
-      // Else delete the item from array
-      state.selected_tasks.splice(elIndex, 1);
-    },
-    setTasks: (state, payload) => {
-      state.tasks = payload;
-    },
-    setTask: (state, payload) => {
-      state.task = payload;
-    },
-    addTask: (state, payload) => {
-      state.tasks.push(payload);
-    },
-    updateTask: (state, payload) => {
-      state.tasks = [
-        ...state.tasks.map((el) => {
-          if (el.id !== payload.id) {
-            return el;
-          }
-          return payload;
-        }),
-      ];
-    },
-    deleteTask: (state, payload) => {
-      state.tasks = [
-        ...state.tasks.filter((el) => {
-          if (el.id !== payload) {
-            return el;
-          }
-        }),
-      ];
     },
   },
   actions: {
-    addRequest({ state, commit }, req) {
-      if (state.activeReq) commit('cancelReq');
+    addRequest: ({ state, commit }, req) => {
+      if (
+        state.activeReq &&
+        state.activeReq.url === req.url &&
+        state.getters.cancel_token_active
+      ) {
+        commit('cancelReq');
+      }
       commit('addRequest', req);
     },
-    getAllTasks: async (state) => {
-      let res = await api.getTasks();
-      state.commit('setTasks', res.data);
-    },
-    getTaskById: async (state, payload) => {
-      let res = await api.getTaskById(payload);
-      state.commit('setTask', res.data);
-    },
-    createTask: async (state, payload) => {
-      let res = await api.createTask(payload);
-      if (res?.status === 201) {
-        state.commit('addTask', res.data);
-        return res.statusText;
-      }
-    },
-    updateTask: async (state, payload) => {
-      payload.updated_at = Date.now();
-      let res = await api.updateTask(payload);
-      if (res?.status === 200) {
-        state.commit('updateTask', res.data);
-        return res.statusText;
-      }
-    },
-    deleteTaskById: async (state, payload) => {
-      let res = await api.deleteTaskById(payload);
-      if (res?.status === 200) {
-        state.commit('deleteTask', payload);
-        return res.statusText;
-      }
-    },
   },
-  modules: {},
+  modules: { tasks, groups },
 });

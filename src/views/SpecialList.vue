@@ -1,11 +1,7 @@
 <template>
   <div class="content">
     <div class="flex-container-wrap">
-      <CardSpecialList
-        :task="task"
-        v-for="task in selectedTasks"
-        :key="task.id"
-      />
+      <CardSpecialList :group="group" v-for="group in groups" :key="group.id" />
     </div>
   </div>
 </template>
@@ -17,8 +13,8 @@ export default {
     CardSpecialList,
   },
   computed: {
-    selectedTasks() {
-      return this.$store.getters.selected_tasks;
+    groups() {
+      return this.$store.getters.groups;
     },
   },
 };

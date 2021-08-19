@@ -8,8 +8,12 @@
         >Filters
       </b-button>
       <span v-if="areTaskSelected">
-        <b-button variant="info" class="m-2 text-white" to="/special_list">
-          View selected items
+        <b-button
+          @click="show_group_modal = true"
+          variant="info"
+          class="m-2 text-white"
+        >
+          Add selected items to a group
         </b-button>
         <b-button variant="danger" @click="clearSelection" class="m-2">
           Clear selection
@@ -28,23 +32,31 @@
       :current_page="current_page"
     />
     <CreateUpdateTaskModal v-if="show_modal" @close="show_modal = false" />
+    <CreateGroupModal
+      v-if="show_group_modal"
+      :task="activeTasks"
+      @close="show_group_modal = false"
+    />
   </div>
 </template>
 <script>
 import TaskTable from '@/components/TaskTable.vue';
 import CreateUpdateTaskModal from '@/components/CreateUpdateTaskModal.vue';
+import CreateGroupModal from '@/components/CreateGroupModal.vue';
 import Paginator from '@/components/Paginator.vue';
 
 export default {
   components: {
     TaskTable,
     CreateUpdateTaskModal,
+    CreateGroupModal,
     Paginator,
   },
   data: () => {
     return {
       current_page: 0,
       show_modal: false,
+      show_group_modal: false,
     };
   },
   computed: {

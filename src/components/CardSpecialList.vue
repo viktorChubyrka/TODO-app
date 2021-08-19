@@ -1,16 +1,19 @@
 <template>
   <div>
     <div class="card m-3" style="width: 18rem">
-      <img
-        class="card-img-top"
-        src="/images/task_logo.jpg"
-        alt="Card image cap"
-      />
+      <img class="card-img-top" :src="group.img" alt="Card image cap" />
       <div class="card-body">
-        <h5 class="card-title">{{ task.title }}</h5>
+        <h5 class="card-title">{{ group.name }}</h5>
         <p class="card-text">
-          {{ task.description }}
+          {{ group.id }}
         </p>
+        <font-awesome-icon
+          class="table-action-icon"
+          :style="{ color: 'red' }"
+          icon="trash-alt"
+          @click.stop="deleteGroup"
+          size="lg"
+        />
       </div>
     </div>
   </div>
@@ -18,8 +21,22 @@
 <script>
 export default {
   props: {
-    task: {
+    group: {
       type: Object,
+    },
+  },
+  methods: {
+    async deleteGroup() {
+      let status = await this.$store.dispatch('deleteGroupById', this.group);
+      this.showToastr(status);
+    },
+    showToastr(status) {
+      switch (status) {
+        case 'OK':
+          return this.$toastr.success('Group deleted successfully');
+        default:
+          return this.$toastr.error('Something went wrong', 'Oooopss..');
+      }
     },
   },
 };

@@ -132,7 +132,7 @@ export default {
         case 'Created':
           return this.$toastr.success('Task created successfully');
         default:
-          return this.$toastr.error('Somethink went wrong', 'Oooopss..');
+          return this.$toastr.error('Something went wrong', 'Oooopss..');
       }
     },
     priorityColor(priority) {

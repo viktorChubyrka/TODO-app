@@ -11,7 +11,9 @@
             :class="`m-2 ${
               $route.path.split('/')[1] === 'tasks' ? 'show' : ''
             }`"
-            :text="`Tasks(${$route.name})`"
+            :text="`Tasks${
+              $route.path.split('/')[1] === 'tasks' ? `(${$route.name})` : ''
+            }`"
           >
             <b-dropdown-item to="/tasks/active">Active</b-dropdown-item>
             <b-dropdown-item to="/tasks/complited">Complited</b-dropdown-item>
