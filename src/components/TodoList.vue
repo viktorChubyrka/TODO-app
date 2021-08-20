@@ -32,7 +32,7 @@
       :current_page="current_page"
     />
     <CreateUpdateTaskModal v-if="show_modal" @close="show_modal = false" />
-    <CreateGroupModal
+    <CreateUpdateGroupModal
       v-if="show_group_modal"
       :task="activeTasks"
       @close="show_group_modal = false"
@@ -42,14 +42,14 @@
 <script>
 import TaskTable from '@/components/TaskTable.vue';
 import CreateUpdateTaskModal from '@/components/CreateUpdateTaskModal.vue';
-import CreateGroupModal from '@/components/CreateGroupModal.vue';
+import CreateUpdateGroupModal from '@/components/CreateUpdateGroupModal.vue';
 import Paginator from '@/components/Paginator.vue';
 
 export default {
   components: {
     TaskTable,
     CreateUpdateTaskModal,
-    CreateGroupModal,
+    CreateUpdateGroupModal,
     Paginator,
   },
   data: () => {

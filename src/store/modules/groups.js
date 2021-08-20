@@ -33,7 +33,9 @@ export default {
           if (el.id !== payload.id) {
             return el;
           }
-          return payload;
+          el.name = payload.name;
+          el.img = payload.img;
+          return el;
         }),
       ];
     },

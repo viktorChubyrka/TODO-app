@@ -1,6 +1,6 @@
 <template>
-  <b-modal ref="create-group-modal" @hidden="resetModal" @ok="save">
-    <b-tabs v-model="active_tab" content-class="mt-3">
+  <b-modal ref="create-group-modal" @hidden="resetModal" @ok="submitModal">
+    <b-tabs v-if="mode === 'create'" v-model="active_tab" content-class="mt-3">
       <b-tab title="New Group" active>
         <form :state="isFormValid" ref="create-group-modal-form">
           <b-form-group label="Group name" label-for="group-name-input">
@@ -52,12 +52,46 @@
         </b-form-select>
       </b-tab>
     </b-tabs>
+    <div v-else>
+      <form :state="isFormValid" ref="create-group-modal-form">
+        <b-form-group label="Group name" label-for="group-name-input">
+          <b-form-input
+            id="group-name-input"
+            type="text"
+            v-model="group_name"
+            :state="validationGroupName"
+            required
+          ></b-form-input>
+          <b-form-invalid-feedback :state="validationGroupName">
+            Group name must be 5-15 characters long.
+          </b-form-invalid-feedback>
+          <b-form-valid-feedback :state="validationGroupName">
+            Looks Good.
+          </b-form-valid-feedback>
+        </b-form-group>
+        <b-form-group label="Group image ( url )" label-for="group-image-input">
+          <b-form-input
+            id="group-image-input"
+            type="text"
+            v-model="group_image"
+            :state="validationGroupImage"
+            required
+          ></b-form-input>
+          <b-form-invalid-feedback :state="validationGroupImage">
+            Please enter an image url
+          </b-form-invalid-feedback>
+          <b-form-valid-feedback :state="validationGroupImage">
+            Looks Good.
+          </b-form-valid-feedback>
+        </b-form-group>
+      </form>
+    </div>
     <template #modal-footer>
       <div class="w-100">
         <b-button
           variant="primary"
           class="modal-footer-btn m-1"
-          @click="save"
+          @click="submitModal"
           :disabled="is_save_disabled"
         >
           <b-spinner small v-if="is_save_disabled"></b-spinner>
@@ -72,6 +106,15 @@
 </template>
 <script>
 export default {
+  props: {
+    group: {
+      type: Object,
+    },
+    mode: {
+      type: String,
+      default: 'create',
+    },
+  },
   data: () => {
     return {
       group_name: null,
@@ -82,36 +125,55 @@ export default {
     };
   },
   methods: {
+    async submitModal(bvModalEvt) {
+      if (this.mode === 'create') {
+        await this.save(bvModalEvt);
+        return;
+      }
+      await this.update(bvModalEvt);
+    },
     async save(bvModalEvt) {
       bvModalEvt.preventDefault();
       if (!this.isFormValid && this.active_tab === 0) {
         return;
       }
       this.is_save_disabled = true;
-      let status;
-      if (this.active_tab === 0) {
-        status = await this.createNewGroup();
-      } else {
-        status = await this.addTasksToExistingGroup();
+
+      this.showToastr(
+        this.active_tab === 0
+          ? await this.createNewGroup()
+          : await this.addTasksToExistingGroup()
+      );
+      this.$emit('close');
+      this.is_save_disabled = false;
+    },
+    async update(bvModalEvt) {
+      bvModalEvt.preventDefault();
+      if (!this.isFormValid) {
+        return;
       }
-      this.showToastr(status);
+      this.is_save_disabled = true;
+      this.showToastr(
+        await this.$store.dispatch('updateGroup', {
+          name: this.group_name,
+          img: this.group_image,
+          id: this.group.id,
+        })
+      );
       this.$emit('close');
       this.is_save_disabled = false;
     },
     async createNewGroup() {
-      let group = {
+      return await this.$store.dispatch('createGroup', {
         name: this.group_name,
         img: this.group_image,
-      };
-      let status = await this.$store.dispatch('createGroup', group);
-      return status;
+      });
     },
     async addTasksToExistingGroup() {
-      let status = await this.$store.dispatch(
+      return await this.$store.dispatch(
         'addTasksToExistingGroup',
         this.selected_group
       );
-      return status;
     },
     resetModal() {
       this.group_name = null;
@@ -119,14 +181,15 @@ export default {
       this.$emit('close');
     },
     showToastr(status) {
-      switch (status) {
-        case 'OK':
-          return this.$toastr.success('Group update successfully');
-        case 'Created':
-          return this.$toastr.success('Group created successfully');
-        default:
-          return this.$toastr.error('Something went wrong', 'Oooopss..');
-      }
+      let map = {
+        OK: { type: 'success', params: ['Group update successfully'] },
+        Created: { type: 'success', params: ['Group created successfully'] },
+        'Not Found': {
+          type: 'success',
+          params: ['Something went wrong', 'Oooopss..'],
+        },
+      };
+      this.$toastr[map[status].type](...map[status].params);
     },
   },
   computed: {
@@ -151,11 +214,9 @@ export default {
   },
   mounted() {
     this.$refs['create-group-modal'].show();
-    if (this.task) {
-      this.priority = this.task.priority > 3 ? 3 : this.task.priority;
-      this.title = this.task.title;
-      this.description = this.task.description;
-      this.end_date = this.task.end_date;
+    if (this.group) {
+      this.group_name = this.group.name;
+      this.group_image = this.group.img;
     }
   },
 };

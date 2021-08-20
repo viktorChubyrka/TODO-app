@@ -9,6 +9,13 @@
           @click.stop="deleteGroup"
           size="lg"
         />
+        <font-awesome-icon
+          class="group-card-controll-icon"
+          :style="{ color: 'orange' }"
+          icon="edit"
+          @click.stop="show_group_modal = true"
+          size="lg"
+        />
       </div>
 
       <div class="image-zoom">
@@ -29,10 +36,20 @@
         </div>
       </div>
     </div>
+    <CreateUpdateGroupModal
+      v-if="show_group_modal"
+      :group="group"
+      mode="update"
+      @close="show_group_modal = false"
+    />
   </div>
 </template>
 <script>
+import CreateUpdateGroupModal from '@/components/CreateUpdateGroupModal.vue';
 export default {
+  components: {
+    CreateUpdateGroupModal,
+  },
   props: {
     group: {
       type: Object,
@@ -41,6 +58,7 @@ export default {
   data: () => {
     return {
       is_delete_btn_active: true,
+      show_group_modal: false,
     };
   },
   methods: {

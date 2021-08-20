@@ -158,14 +158,15 @@ export default {
       this.$emit('close');
     },
     showToastr(status) {
-      switch (status) {
-        case 'OK':
-          return this.$toastr.success('Task update successfully');
-        case 'Created':
-          return this.$toastr.success('Task created successfully');
-        default:
-          return this.$toastr.error('Something went wrong', 'Oooopss..');
-      }
+      let map = {
+        OK: { type: 'success', params: ['Task update successfully'] },
+        Created: { type: 'success', params: ['Task created successfully'] },
+        'Not Found': {
+          type: 'success',
+          params: ['Something went wrong', 'Oooopss..'],
+        },
+      };
+      this.$toastr[map[status].type](...map[status].params);
     },
     priorityColor(priority) {
       if (priority > 2) {

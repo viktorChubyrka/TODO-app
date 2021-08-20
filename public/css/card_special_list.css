@@ -134,6 +134,11 @@
   right: 0;
   top: 0;
   padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.432);
+  backdrop-filter: blur(3px);
+  border-radius: calc(0.25rem - 1px);
 }
 .group-card-controll-icon {
   width: 1rem;
