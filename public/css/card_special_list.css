@@ -118,3 +118,13 @@
   opacity: 1;
   transition: opacity 0.15s;
 }
+.image-zoom {
+  overflow: hidden;
+  cursor: pointer;
+}
+.card:hover .image-zoom .card-img-top {
+  transform: scale(1.5);
+}
+.card-img-top {
+  transition: transform 0.5s;
+}

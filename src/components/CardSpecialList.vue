@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="card m-3" style="width: 18rem">
-      <img class="card-img-top" :src="group.img" alt="Card image cap" />
+      <div class="image-zoom">
+        <img class="card-img-top" :src="group.img" alt="Card image cap" />
+      </div>
       <div class="card-body">
         <h5 class="card-title">{{ group.name }}</h5>
         <div
