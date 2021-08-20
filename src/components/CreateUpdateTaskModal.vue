@@ -42,7 +42,6 @@
         <p class="danger" v-if="$v.title.$invalid && $v.title.$dirty">
           Task title must be 5-15 characters long.
         </p>
-        {{ $v.title }}
       </b-form-group>
       <b-form-group label="Description" label-for="description-input">
         <b-form-textarea

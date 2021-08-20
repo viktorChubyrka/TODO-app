@@ -24,6 +24,7 @@ import {
   faTrashAlt,
   faTrashRestore,
   faArchive,
+  faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add({
@@ -32,6 +33,7 @@ library.add({
   faTrashAlt,
   faTrashRestore,
   faArchive,
+  faTimesCircle,
 });
 
 //Vuelidate import

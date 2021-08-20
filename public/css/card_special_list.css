@@ -128,3 +128,18 @@
 .card-img-top {
   transition: transform 0.5s;
 }
+.controll-icon-container {
+  position: absolute;
+  z-index: 10;
+  right: 0;
+  top: 0;
+  padding: 0.5rem;
+}
+.group-card-controll-icon {
+  width: 1rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+.group-card-controll-icon:last-child {
+  margin: 0;
+}
