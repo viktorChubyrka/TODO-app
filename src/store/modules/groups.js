@@ -145,6 +145,10 @@ export default {
     },
     deleteGroupById: async (state, payload) => {
       for (let i = 0; i < payload.tasks.length; i++) {
+        await state.dispatch('updateTask', {
+          id: payload.tasks[i].taskId,
+          state: 'complited',
+        });
         await api.deleteGroupTaskById(payload.id, payload.tasks[i].id);
       }
       let res = await api.deleteGroupById(payload.id);
