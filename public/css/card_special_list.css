@@ -147,4 +147,8 @@
 }
 .group-card-controll-icon:last-child {
   margin: 0;
+  text-decoration: th;
+}
+.complited-task {
+  text-decoration: line-through;
 }

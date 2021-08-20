@@ -27,7 +27,8 @@
           v-tooltip.top-center="task.description"
           v-for="task in groupTasks"
           :key="task.id"
-          class="group-task"
+          :class="{ 'group-task': true, 'complited-task': task.is_done }"
+          @click="completeTask(task)"
         >
           <div class="task-description">
             <span class="task-id">{{ task.id }}</span>
@@ -73,11 +74,30 @@ export default {
     },
     showToastr(status) {
       let map = {
-        OK: () => this.$toastr.success('Group deleted successfully'),
-        'Not Found': () =>
-          this.$toastr.error('Something went wrong', 'Oooopss..'),
+        OK: { type: 'info', params: ['Group deleted successfully'] },
+        'Task Done': { type: 'success', params: ['Task is now done!'] },
+        'Task Already Done': {
+          type: 'info',
+          params: ['Task is already done!'],
+        },
+        'Not Found': {
+          type: 'success',
+          params: ['Something went wrong', 'Oooopss..'],
+        },
       };
-      map[status]();
+      this.$toastr[map[status].type](...map[status].params);
+    },
+    async completeTask(task) {
+      if (task.is_done) {
+        this.showToastr('Task Already Done');
+        return;
+      }
+      task.is_done = true;
+      this.showToastr(
+        (await this.$store.dispatch('updateTask', task)) === 'OK'
+          ? 'Task Done'
+          : 'Not Found'
+      );
     },
   },
   computed: {
