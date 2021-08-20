@@ -47,7 +47,7 @@
         <b-form-textarea
           id="description-input"
           v-model="$v.description.$model"
-          placeholder="Enter description...(not required)"
+          placeholder="Enter description..."
           rows="3"
           max-rows="6"
           :state="
