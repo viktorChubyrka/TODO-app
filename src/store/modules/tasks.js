@@ -23,6 +23,9 @@ export default {
     task: (state) => {
       return state.task;
     },
+    tasks: (state) => {
+      return state.tasks;
+    },
     search_input: (state) => {
       return state.search_input;
     },

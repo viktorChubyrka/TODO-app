@@ -38,12 +38,17 @@ library.add({
 
 import Vuelidate from 'vuelidate';
 
+//Tooltip import
+
+import VTooltip from 'v-tooltip';
+
 window.toastr = require('toastr');
 
 Vue.use(VueToastr2);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(Vuelidate);
+Vue.use(VTooltip);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

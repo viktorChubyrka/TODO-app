@@ -4,9 +4,17 @@
       <img class="card-img-top" :src="group.img" alt="Card image cap" />
       <div class="card-body">
         <h5 class="card-title">{{ group.name }}</h5>
-        <p class="card-text">
-          {{ group.id }}
-        </p>
+        <div
+          v-tooltip.top-center="task.description"
+          v-for="task in groupTasks"
+          :key="task.id"
+          class="group-task"
+        >
+          <div class="task-description">
+            <span class="task-id">{{ task.id }}</span>
+            {{ task.description }}
+          </div>
+        </div>
         <font-awesome-icon
           class="table-action-icon"
           :style="{ color: 'red' }"
@@ -37,6 +45,16 @@ export default {
         default:
           return this.$toastr.error('Something went wrong', 'Oooopss..');
       }
+    },
+  },
+  computed: {
+    groupTasks() {
+      return this.$store.getters.tasks.filter((task) => {
+        if (this.group.tasks.some((el) => task.id === el.taskId)) {
+          return true;
+        }
+        return false;
+      });
     },
   },
 };
