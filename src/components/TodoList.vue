@@ -1,7 +1,12 @@
 <template>
   <div class="todo-list">
     <div class="action-panel">
-      <b-button variant="dark" class="m-2" @click="show_modal = true">
+      <b-button
+        variant="dark"
+        id="create-task-btn"
+        class="m-2"
+        @click="show_modal = true"
+      >
         Create task
       </b-button>
       <b-button variant="dark" class="m-2" v-b-toggle.sidebar-variant

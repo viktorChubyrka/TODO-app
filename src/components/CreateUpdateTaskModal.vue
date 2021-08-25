@@ -70,6 +70,7 @@
     <template #modal-footer>
       <div class="w-100">
         <b-button
+          id="create-btn"
           variant="primary"
           class="modal-footer-btn m-1"
           @click="saveTask"

@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 /dist
+/cypress/integration/2-advanced-examples
 
 
 # local env files
