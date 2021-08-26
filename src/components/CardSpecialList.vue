@@ -20,7 +20,12 @@
         />
       </div>
 
-      <div class="image-zoom">
+      <div
+        v-tooltip.top-center="
+          'Clicking on the picture will open the group page'
+        "
+        class="image-zoom"
+      >
         <img class="card-img-top" :src="group.img" alt="Card image cap" />
       </div>
       <div class="card-body">
