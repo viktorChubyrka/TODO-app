@@ -6,6 +6,7 @@
           <b-form-group label="Group name" label-for="group-name-input">
             <b-form-input
               id="group-name-input"
+              data-cy="group-name-input"
               type="text"
               v-model="group_name"
               :state="validationGroupName"
@@ -24,6 +25,7 @@
           >
             <b-form-input
               id="group-image-input"
+              data-cy="group-image-input"
               type="text"
               v-model="group_image"
               :state="validationGroupImage"
@@ -57,6 +59,7 @@
         <b-form-group label="Group name" label-for="group-name-input">
           <b-form-input
             id="group-name-input"
+            data-cy="group-name-input"
             type="text"
             v-model="group_name"
             :state="validationGroupName"
@@ -72,6 +75,7 @@
         <b-form-group label="Group image ( url )" label-for="group-image-input">
           <b-form-input
             id="group-image-input"
+            data-cy="group-image-input"
             type="text"
             v-model="group_image"
             :state="validationGroupImage"
@@ -93,6 +97,7 @@
           class="modal-footer-btn m-1"
           @click="submitModal"
           :disabled="is_save_disabled"
+          data-cy="save"
         >
           <b-spinner small v-if="is_save_disabled"></b-spinner>
           <span v-else>Save</span>
@@ -185,6 +190,10 @@ export default {
         OK: { type: 'success', params: ['Group update successfully'] },
         Created: { type: 'success', params: ['Group created successfully'] },
         'Not Found': {
+          type: 'success',
+          params: ['Something went wrong', 'Oooopss..'],
+        },
+        'Bad Request': {
           type: 'success',
           params: ['Something went wrong', 'Oooopss..'],
         },

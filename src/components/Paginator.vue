@@ -1,5 +1,5 @@
 <template>
-  <div class="paginator">
+  <div data-cy="paginator" class="paginator">
     <img
       v-if="current_page > 0"
       @click="$emit('prev', current_page - 1)"

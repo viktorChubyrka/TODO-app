@@ -77,7 +77,7 @@ export default {
   actions: {
     getAllTasks: async (state) => {
       let res = await api.getTasks();
-      state.commit('setTasks', res.data);
+      state.commit('setTasks', res?.data);
     },
     getTaskById: async (state, payload) => {
       let res = await api.getTaskById(payload);

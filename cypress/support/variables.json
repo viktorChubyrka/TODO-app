@@ -1,0 +1,22 @@
+{
+    "create_task": {
+        "priority": "2",
+        "title": "Some title",
+        "description": "Some description"
+    },
+    "update_task": {
+        "priority": "1",
+        "title": "Some new title",
+        "description": "Some new description"
+    },
+    "create_group": {
+        "name": "My group",
+        "image": "https://www.publicdomainpictures.net/pictures/320000/velka/background-image.png"
+    },
+    "update_group": {
+        "name": "My new group",
+        "image": "https://www.industrialempathy.com/img/remote/ZiClJf-1920w.jpg"
+    },
+    "clear_input":"{selectall}{del}"
+
+}

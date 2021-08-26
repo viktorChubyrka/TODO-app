@@ -8,6 +8,7 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="text-white w-75">
           <b-nav-item-dropdown
+            data-cy="dropdown"
             :class="`m-2 ${
               $route.path.split('/')[1] === 'tasks' ? 'show' : ''
             }`"
@@ -19,6 +20,7 @@
             <b-dropdown-item to="/tasks/complited">Complited</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item
+            data-cy="special_list_link"
             :active="$route.name === 'special_list'"
             to="/special_list"
             class="m-2"

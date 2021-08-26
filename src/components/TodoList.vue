@@ -3,7 +3,7 @@
     <div class="action-panel">
       <b-button
         variant="dark"
-        id="create-task-btn"
+        data-cy="create-task-btn"
         class="m-2"
         @click="show_modal = true"
       >
@@ -17,6 +17,7 @@
           @click="show_group_modal = true"
           variant="info"
           class="m-2 text-white"
+          data-cy="create-group"
         >
           Add selected items to a group
         </b-button>
@@ -29,7 +30,7 @@
       <TaskTable :current_page="current_page + 1" :tasks="activeTasks" />
     </div>
     <Paginator
-      v-if="pageCount > 1"
+      v-show="pageCount > 1"
       @select="setPage"
       @next="setPage"
       @prev="setPage"

@@ -1,8 +1,9 @@
 <template>
-  <div>
+  <div data-cy="special-list-card">
     <div class="card m-3" style="width: 18rem">
       <div class="controll-icon-container">
         <font-awesome-icon
+          data-cy="delete-group-btn"
           class="group-card-controll-icon"
           :style="{ color: 'red' }"
           icon="times-circle"
@@ -10,6 +11,7 @@
           size="lg"
         />
         <font-awesome-icon
+          data-cy="update-group-btn"
           class="group-card-controll-icon"
           :style="{ color: 'orange' }"
           icon="edit"

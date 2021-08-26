@@ -4,6 +4,7 @@
       <b-form-group label="Priority" label-for="priority-input">
         <b-form-rating
           id="priority-input"
+          data-cy="priority-input"
           v-model="$v.priority.$model"
           :color="priorityColor(priority - 1)"
           :stars="3"
@@ -18,6 +19,7 @@
           :min="dateNow"
           locale="en"
           id="end_date_datepicker"
+          data-cy="end_date_datepicker"
           v-model="$v.end_date.$model"
           class="mb-2"
           :state="!$v.end_date.$dirty ? null : $v.end_date.required"
@@ -30,6 +32,7 @@
       <b-form-group label="Title" label-for="title-input">
         <b-form-input
           id="title-input"
+          data-cy="title-input"
           type="text"
           v-model.trim="$v.title.$model"
           :state="
@@ -46,6 +49,7 @@
       <b-form-group label="Description" label-for="description-input">
         <b-form-textarea
           id="description-input"
+          data-cy="description-input"
           v-model="$v.description.$model"
           placeholder="Enter description..."
           rows="3"
@@ -71,6 +75,7 @@
       <div class="w-100">
         <b-button
           id="create-btn"
+          data-cy="create-btn"
           variant="primary"
           class="modal-footer-btn m-1"
           @click="saveTask"
