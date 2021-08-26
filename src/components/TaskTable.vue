@@ -161,7 +161,7 @@ export default {
     },
     selectItem(item) {
       if (item.state !== 'delited' && item.state !== 'complited') {
-        this.$store.commit('setSelectedTasks', item);
+        this.$store.commit('setSelectedTasks', { item, vue: this });
       }
     },
     formatDate(date) {

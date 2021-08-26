@@ -55,12 +55,16 @@ export default {
       // Check if this element is in the array.
       // If so it returns the index of this element and otherwise -1.
       let elIndex = state.selected_tasks.findIndex((el) => {
-        return el.id === payload.id;
+        return el.id === payload.item.id;
       });
       // If the variable is -1 add the element to the array
       // and get out from the function
       if (elIndex === -1) {
-        state.selected_tasks = [payload, ...state.selected_tasks];
+        if (state.selected_tasks.length >= 7)
+          return payload.vue.$toastr.info(
+            'You cannot select more than 7 items at once'
+          );
+        state.selected_tasks = [payload.item, ...state.selected_tasks];
         return;
       }
       // Else delete the item from array
