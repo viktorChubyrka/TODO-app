@@ -1,0 +1,58 @@
+.group-page-image {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 12rem;
+}
+.group-page-image .image {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.group-page-name {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.418);
+  backdrop-filter: blur(5px);
+  width: min-content;
+  border-radius: 1rem;
+  position: absolute;
+  text-transform: capitalize;
+}
+.tasks-container {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1rem;
+}
+.group-card-container {
+  margin: 1rem 0;
+  cursor: move;
+  background: rgb(2, 2, 77);
+}
+.pop-up {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.507);
+  backdrop-filter: blur(5px);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.qr-code {
+  position: absolute;
+  width: 20rem;
+  height: 20rem;
+}
+.pop-up-close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  cursor: pointer;
+}

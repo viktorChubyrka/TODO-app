@@ -26,7 +26,12 @@
         "
         class="image-zoom"
       >
-        <img class="card-img-top" :src="group.img" alt="Card image cap" />
+        <img
+          class="card-img-top"
+          @click="goToGroupPage()"
+          :src="group.img"
+          alt="Card image cap"
+        />
       </div>
       <div class="card-body">
         <h5 class="card-title">{{ group.name }}</h5>
@@ -70,6 +75,15 @@ export default {
     };
   },
   methods: {
+    goToGroupPage() {
+      this.$router.push({
+        path: '/special_list_group',
+        query: {
+          id: this.group.id,
+          tasks: this.groupTasks.map((el) => el.id),
+        },
+      });
+    },
     async deleteGroup() {
       if (!this.is_delete_btn_active) {
         return;

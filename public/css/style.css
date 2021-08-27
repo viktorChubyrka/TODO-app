@@ -7,6 +7,7 @@
 @import 'task_table.css';
 @import 'modal.css';
 @import 'card_special_list.css';
+@import 'group_page.css';
 
 * {
   margin: 0;

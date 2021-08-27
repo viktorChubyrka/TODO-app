@@ -4,6 +4,7 @@ import Tasks from '../views/Tasks.vue';
 import TodoList from '../components/TodoList.vue';
 import Archive from '../components/Archive.vue';
 import SpecialList from '../views/SpecialList.vue';
+import GroupPage from '../components/GroupPage.vue';
 
 Vue.use(VueRouter);
 
@@ -29,6 +30,11 @@ const routes = [
     path: '/special_list',
     name: 'special_list',
     component: SpecialList,
+  },
+  {
+    path: '/special_list_group',
+    name: 'group',
+    component: GroupPage,
   },
   {
     path: '*',
