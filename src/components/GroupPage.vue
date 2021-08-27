@@ -22,6 +22,9 @@
           size="lg"
         />
         <font-awesome-icon
+          v-tooltip.top-center="
+            'Click to open qrcode with this link and saved sorting'
+          "
           class="group-card-controll-icon"
           :style="{ color: 'rgb(2, 2, 77)' }"
           icon="qrcode"
