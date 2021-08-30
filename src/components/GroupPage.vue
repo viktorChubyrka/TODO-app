@@ -37,7 +37,7 @@
       <draggable v-model="tasks">
         <transition-group>
           <div
-            class="group-card-container"
+            class="'group-card-container',"
             v-for="task in tasks"
             :key="task.id"
           >
@@ -45,6 +45,16 @@
               :title="getTaskProperty('title', task.taskId)"
               :sub-title="task.taskId"
             >
+              <div class="priority-indicator-container">
+                <h5>Priority:</h5>
+                <div
+                  v-for="i in getTaskProperty('priority', task.taskId)"
+                  :key="i"
+                  :class="
+                    priorityColor(getTaskProperty('priority', task.taskId))
+                  "
+                ></div>
+              </div>
               <b-card-text>
                 {{ getTaskProperty('description', task.taskId) }}
               </b-card-text>
@@ -113,6 +123,14 @@ export default {
     },
   },
   methods: {
+    priorityColor(priority) {
+      let colorClasses = {
+        1: 'green_task',
+        2: 'yellow_task',
+        3: 'red_task',
+      };
+      return colorClasses[priority];
+    },
     getTaskProperty(property, id) {
       if (this.$store.getters.tasks.length)
         return this.$store.getters.tasks.find((el) => el.id === id)[property];
