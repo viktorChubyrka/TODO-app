@@ -109,6 +109,17 @@ export default {
       state.commit('addTasksToGroup', { id: payload, tasks });
       return group_task.statusText;
     },
+    addTaskToGroup: async (state, payload) => {
+      let group_task = await api.createGroupTask(payload.id, {
+        taskId: payload.taskId,
+        groupId: payload.id,
+      });
+      state.commit('addTasksToGroup', {
+        id: payload.id,
+        tasks: [group_task.data],
+      });
+      return group_task.data;
+    },
     getGroupById: async (state, payload) => {
       let res = await api.getGroupById(payload);
       state.commit('setGroup', res.data);

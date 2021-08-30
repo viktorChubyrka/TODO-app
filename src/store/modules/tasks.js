@@ -87,7 +87,7 @@ export default {
       let res = await api.createTask(payload);
       if (res?.status === 201) {
         state.commit('addTask', res.data);
-        return res.statusText;
+        return res;
       }
     },
     updateTask: async (state, payload) => {
@@ -95,7 +95,7 @@ export default {
       let res = await api.updateTask(payload);
       if (res?.status === 200) {
         state.commit('updateTask', res.data);
-        return res.statusText;
+        return res;
       }
     },
     deleteTaskById: async (state, payload) => {

@@ -3,6 +3,7 @@
     <CreateUpdateTaskModal
       v-if="show_modal"
       @close="show_modal = false"
+      @OK="show_modal = false"
       :task="selected_task"
     />
     <b-table

@@ -37,7 +37,11 @@
       :page_count="pageCount"
       :current_page="current_page"
     />
-    <CreateUpdateTaskModal v-if="show_modal" @close="show_modal = false" />
+    <CreateUpdateTaskModal
+      v-if="show_modal"
+      @close="show_modal = false"
+      @OK="show_modal = false"
+    />
     <CreateUpdateGroupModal
       v-if="show_group_modal"
       :task="activeTasks"

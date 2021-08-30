@@ -148,12 +148,11 @@ export default {
         state: 'active',
         id: this.task ? this.task.id : null,
       };
-      let status = await this.$store.dispatch(
+      let res = await this.$store.dispatch(
         this.task ? 'updateTask' : 'createTask',
         task
       );
-      this.showToastr(status);
-      this.$emit('close');
+      this.showToastr(res.statusText, res.data);
       this.is_save_disabled = false;
     },
     resetModal() {
@@ -163,16 +162,26 @@ export default {
       this.end_date = null;
       this.$emit('close');
     },
-    showToastr(status) {
+    showToastr(status, task) {
       let map = {
-        OK: { type: 'success', params: ['Task update successfully'] },
-        Created: { type: 'success', params: ['Task created successfully'] },
+        OK: {
+          type: 'success',
+          params: ['Task update successfully'],
+          method: 'OK',
+        },
+        Created: {
+          type: 'success',
+          params: ['Task created successfully'],
+          method: 'OK',
+        },
         'Not Found': {
           type: 'success',
           params: ['Something went wrong', 'Oooopss..'],
+          method: 'close',
         },
       };
       this.$toastr[map[status].type](...map[status].params);
+      this.$emit(map[status].method, task.id);
     },
     priorityColor(priority) {
       if (priority > 2) {

@@ -31,6 +31,14 @@
           size="lg"
           @click="show_qr_code = true"
         />
+        <font-awesome-icon
+          v-tooltip.top-center="'Click to create new task'"
+          class="group-card-controll-icon"
+          :style="{ color: 'green' }"
+          icon="plus"
+          size="lg"
+          @click="show_task_create_modal = true"
+        />
       </div>
     </div>
     <div class="tasks-container">
@@ -71,6 +79,12 @@
       :group="group"
       mode="update"
       @close="show_group_modal = false"
+      @OK="addTaskToGroup"
+    />
+    <CreateUpdateTaskModal
+      v-if="show_task_create_modal"
+      @close="show_task_create_modal = false"
+      @OK="addTaskToGroup"
     />
     <div v-if="show_qr_code" class="pop-up">
       <vue-qr
@@ -90,18 +104,21 @@
 <script>
 import draggable from 'vuedraggable';
 import CreateUpdateGroupModal from '@/components/CreateUpdateGroupModal.vue';
+import CreateUpdateTaskModal from '@/components/CreateUpdateTaskModal.vue';
 import VueQr from 'vue-qr';
 
 export default {
   components: {
     draggable,
     CreateUpdateGroupModal,
+    CreateUpdateTaskModal,
     VueQr,
   },
   data: () => {
     return {
       show_group_modal: false,
       show_qr_code: false,
+      show_task_create_modal: false,
       tasks: [],
     };
   },
@@ -123,6 +140,14 @@ export default {
     },
   },
   methods: {
+    async addTaskToGroup(taskId) {
+      let new_task = await this.$store.dispatch('addTaskToGroup', {
+        id: this.group.id,
+        taskId,
+      });
+      this.tasks.push(new_task);
+      this.show_task_create_modal = false;
+    },
     priorityColor(priority) {
       let colorClasses = {
         1: 'green_task',

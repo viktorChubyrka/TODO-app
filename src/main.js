@@ -27,6 +27,7 @@ import {
   faTimesCircle,
   faQrcode,
   faTimes,
+  faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add({
@@ -38,6 +39,7 @@ library.add({
   faTimesCircle,
   faQrcode,
   faTimes,
+  faPlus,
 });
 
 //Vuelidate import
