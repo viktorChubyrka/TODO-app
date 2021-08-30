@@ -81,3 +81,30 @@
   display: inline-block;
   margin: 1px;
 }
+.progres-bar {
+  position: absolute;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.432);
+  backdrop-filter: blur(3px);
+  z-index: 100;
+}
+.progres-bar h5 {
+  font-size: 1rem;
+}
+.task-complited-blur {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(128, 128, 128, 0.575);
+  backdrop-filter: blur(5px);
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.task-complited-blur .icon {
+  width: 4rem;
+}

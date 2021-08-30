@@ -19,7 +19,7 @@
           size="lg"
         />
       </div>
-
+      <GroupProgressBar :max="groupTasks.length" :value="complitedTasks" />
       <div
         v-tooltip.top-center="
           'Clicking on the picture will open the group page'
@@ -59,9 +59,11 @@
 </template>
 <script>
 import CreateUpdateGroupModal from '@/components/CreateUpdateGroupModal.vue';
+import GroupProgressBar from '@/components/GroupProgressBar.vue';
 export default {
   components: {
     CreateUpdateGroupModal,
+    GroupProgressBar,
   },
   props: {
     group: {
@@ -102,7 +104,7 @@ export default {
           params: ['Task is already done!'],
         },
         'Not Found': {
-          type: 'success',
+          type: 'error',
           params: ['Something went wrong', 'Oooopss..'],
         },
       };
@@ -115,13 +117,16 @@ export default {
       }
       task.is_done = true;
       this.showToastr(
-        (await this.$store.dispatch('updateTask', task)) === 'OK'
+        (await this.$store.dispatch('updateTask', task)).statusText === 'OK'
           ? 'Task Done'
           : 'Not Found'
       );
     },
   },
   computed: {
+    complitedTasks() {
+      return this.groupTasks.filter((el) => el.is_done).length;
+    },
     groupTasks() {
       return this.$store.getters.tasks.filter((task) => {
         if (this.group.tasks.some((el) => task.id === el.taskId)) {

@@ -69,6 +69,19 @@
               :title="getTaskProperty('title', task.taskId)"
               :sub-title="task.taskId"
             >
+              <div
+                v-if="getTaskProperty('is_done', task.taskId)"
+                class="task-complited-blur"
+              >
+                <font-awesome-icon
+                  v-tooltip.top-center="'Click to create new task'"
+                  class="icon"
+                  :style="{ color: 'green' }"
+                  icon="check-circle"
+                  size="6x"
+                  @click="sort('down')"
+                />
+              </div>
               <div class="priority-indicator-container">
                 <h5>Priority:</h5>
                 <div
