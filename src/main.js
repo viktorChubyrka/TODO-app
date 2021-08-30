@@ -28,6 +28,8 @@ import {
   faQrcode,
   faTimes,
   faPlus,
+  faSortNumericUpAlt,
+  faSortNumericDownAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add({
@@ -40,6 +42,8 @@ library.add({
   faQrcode,
   faTimes,
   faPlus,
+  faSortNumericUpAlt,
+  faSortNumericDownAlt,
 });
 
 //Vuelidate import

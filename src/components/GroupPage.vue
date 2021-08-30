@@ -39,6 +39,22 @@
           size="lg"
           @click="show_task_create_modal = true"
         />
+        <font-awesome-icon
+          v-tooltip.top-center="'Click to create new task'"
+          class="group-card-controll-icon"
+          :style="{ color: 'black' }"
+          icon="sort-numeric-up-alt"
+          size="lg"
+          @click="sort('up')"
+        />
+        <font-awesome-icon
+          v-tooltip.top-center="'Click to create new task'"
+          class="group-card-controll-icon"
+          :style="{ color: 'black' }"
+          icon="sort-numeric-down-alt"
+          size="lg"
+          @click="sort('down')"
+        />
       </div>
     </div>
     <div class="tasks-container">
@@ -140,6 +156,20 @@ export default {
     },
   },
   methods: {
+    sort(method) {
+      console.log(method);
+      this.tasks = this.tasks.sort(
+        (a, b) =>
+          this.getTaskProperty(
+            'priority',
+            method === 'up' ? a.taskId : b.taskId
+          ) -
+          this.getTaskProperty(
+            'priority',
+            method === 'up' ? b.taskId : a.taskId
+          )
+      );
+    },
     async addTaskToGroup(taskId) {
       let new_task = await this.$store.dispatch('addTaskToGroup', {
         id: this.group.id,
